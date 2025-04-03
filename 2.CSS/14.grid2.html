@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .grid-item {
+            background-color:aqua;
+            color: red;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2em; /* px, em 등 적절하게 변경 */
+            padding: 30px 0;
+        }
+        .grid-item.big {
+            grid-column: span 2; /* 2칸 차지 */
+        }
+
+        @media (max-width: 600px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-item.big {
+                grid-column: span 1; /* 한 칸만 차지 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>반응형 그리드</h1>
+    <div class="grid-container">
+        <div class="grid-item big">박스 1 (2칸->모바일1칸)</div>
+        <div class="grid-item">박스 2</div>
+        <div class="grid-item">박스 3</div>
+        <div class="grid-item">박스 4</div>
+        <div class="grid-item">박스 5</div>
+    </div>
+</body>
+</html>

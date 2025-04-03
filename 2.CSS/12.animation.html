@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            animation-name: moveLeft;
+            animation-duration: 2.0s;
+            animation-delay: 2.0s;
+            animation-timing-function: ease; /* linear, ease 등 */
+            animation-iteration-count: infinite; /* 1, 2, 3, 숫자 */
+            animation-direction: alternate;
+            position: relative;
+        }
+
+        @keyframes moveLeft {
+            0% {
+                left: 0;
+            }
+            100% {
+                left: 200px;
+            }
+        }
+        .text {
+            color: black;
+            animation-name: fadeOut;
+            animation-duration: 2.0s;
+            animation-delay: 1.0s;
+            animation-iteration-count: 2;
+        }
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        .circle {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+            border-radius: 20%;
+            animation-name: rotateAndScale;
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+        }
+        @keyframes rotateAndScale {
+            0% {
+                transform: rotate(0def) scale(1); /* 원래크기그대로 */
+            }
+            50% {
+                transform: translateX(500px) rotate(180deg) scale(1.5);
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+    <hr>
+    <p class="text">아무글자나써보기</p>
+    <hr>
+    <div class="circle"></div>
+</body>
+</html>
