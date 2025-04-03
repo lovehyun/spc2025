@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            background: black;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #ffffff, rgba(255,255,255,0));
+            border-radius: 50%;
+            animation: fadeOut 1s forwards;
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sparkle"></div>
+    <script>
+        document.addEventListener('mousemove', (e) => {
+            // 새로운 DIV 만들기
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+
+            // 그 좌표 위치 계산
+            sparkle.style.left = `${e.pageX}px`;
+            sparkle.style.top = `${e.pageY}px`;
+
+            // 랜덤 크기로 스파클 요소 생성
+            const size = Math.random() * 20 + 5; // 5px ~ 25px 까지의 랜덤값
+            sparkle.style.width = `${size}px`;
+            sparkle.style.height = `${size}px`;
+            sparkle.style.background = `radial-gradient(circle, hsl(${Math.random() * 360}, 100%, 75%), rgba(255,255,255,0))`;
+
+            // 이 문서(HTML)에 위에서 생성한 요소 추가
+            document.body.appendChild(sparkle);
+
+            // 일정 시간이 지난후에 이 추가한 DOM을 삭제...
+            setTimeout(() => {
+                sparkle.remove();
+            }, 1000); // 1초마다 해당 요소(DOM) 삭제하기
+        })
+    </script>
+</body>
+</html>
