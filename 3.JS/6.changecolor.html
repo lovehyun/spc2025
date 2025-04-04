@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="changeColor()">배경색상변경</button>
+    <button onclick="randomColor()">배경색상랜덤변경</button>
+    <script>
+        var colors = ["red", "blue", "green", "orange", "cyan", "yellow"]
+        var currentIndex = 0;
+
+        function changeColor() {
+            document.body.style.backgroundColor = colors[currentIndex];
+            // currentIndex = currentIndex + 1;
+            // console.log(currentIndex);
+            // if (currentIndex === 3) {
+            //     currentIndex = 0;
+            // }
+
+            currentIndex = (currentIndex + 1) % colors.length;
+        }
+
+        function randomColor() {
+            // document.body.style.backgroundColor = "#3FA34C" // 16진수
+            document.body.style.backgroundColor = '#' + Math.floor(Math.random() * 1677215).toString(16).padStart(6, '0');
+        }
+
+        // 미션1. 버튼을 누를때마다 색상이 바뀌게 하려면??
+        // 미션2. 이거 다시 순환되게 하려면 어떻게 해야 할까???
+        // 미션3. 리스트 말고, 그냥 랜덤색상으로 바뀌게 하려면?? (힌트: 숫자코드를 잘 활용해야함. #RRGGBB)
+    </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <h1>색상 변경(토글)</h1>
+    <p id="mytext">이 텍스트의 색상을 변경(토글) 해보세요</p>
+    <button onclick="changeColor()">색상변경</button>
+    <script>
+        // 미션1. 버튼을 눌러서 글자색을 빨강->파랑->빨간->파랑->...반복 을 만든다
+        function changeColor() {
+            var myText = document.getElementById("mytext");
+
+            if (myText.style.color !== 'red') {
+                myText.style.color = 'red';
+            } else {
+                myText.style.color = 'blue';
+            }
+        }
+    </script>
+</body>
+</html>

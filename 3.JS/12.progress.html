@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #progressBar {
+            width: 100%;
+            background-color: #c4c4c4;
+        }
+        #progress {
+            width: 0%;
+            height: 30px;
+            background-color: #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <h1>프로그레스바(타이머)</h1>
+    <input type="number" id="timeInput" placeholder="초 입력" min=1>
+    <button id="startButton" onclick="startProgress()">시작</button>
+    <button id="resetButton">리셋</button>
+
+    <div id="progressBar">
+        <div id="progress"></div>
+    </div>
+    <script>
+        // 미션1. 타이머 구현
+        // 1-1. 초를 읽어서, 등분해야함
+        // 1-2. 1초마다 기다리면서, 진척도를 표시
+        const timeInput = document.getElementById('timeInput');
+        const progressBar = document.getElementById('progress');
+
+        let duration = 0; // 사용자가 입력한 시간 (최종골)
+
+        function startProgress() {
+            duration = Number(timeInput.value);
+
+            let timePassed = 0; // 경과된 시간
+            interval = setInterval(function() { // interval은 타이머의 id값임
+                timePassed++; // 매초 증가
+
+                let progress = (timePassed / duration) * 100; // 진행율
+
+                // progressBar.style.width = progress + "%"; // 진행율 바(게이지) 업데이트
+                progressBar.style.width = `${progress}%`; // 진행율 바(게이지) 업데이트 (스트링 리터럴 표현법)
+
+                // 끝까지 완료했으면? 이 타이머를 삭제
+                if (timePassed >= duration) {
+                    clearInterval(interval); // 해당id로 타이머 삭제
+                    console.log("타이머 삭제중...", interval);
+                }
+            }, 1000);
+
+        }
+
+        // 미션2. RESET 버튼 구현하기 (숙제)
+        // 2-1. RESET 누르면 타이머 멈추기
+        // 2-2. RESET 눌렀을때 타이머도 멈추고, 추가적으로 바 게이지 초기화하기
+    </script>
+</body>
+</html>

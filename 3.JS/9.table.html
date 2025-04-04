@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse; /* 셀 간격 없애기 */
+        }
+        td {
+            padding: 10px;
+            border: 1px solid black;
+            /* background-color: aqua; */
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>셀 1</td>
+            <td>셀 2</td>
+            <td>셀 3</td>
+        </tr>
+        <tr>
+            <td>셀 4</td>
+            <td>셀 5</td>
+            <td>셀 6</td>
+        </tr>
+        <tr>
+            <td>셀 7</td>
+            <td>셀 8</td>
+            <td>셀 9</td>
+        </tr>
+    </table>
+    
+    <button onclick="changeAllColor()">전체색상변경</button>
+    <button onclick="changeOddColor()">홀수색상변경</button>
+    <button onclick="changeEvenColor()">짝수색상변경</button>
+    
+    <script>
+        // 미션1: 전체색상변경 기능구현(함수)
+        function changeAllColor() {
+            var cells = document.getElementsByTagName('td');
+
+            // 예시1) for 사용
+            // for (var i = 0; i < 9; i++) { // 하드코딩 어떻게??
+            //     cells[i].style.backgroundColor = "lightblue";
+            // }
+
+            // for (var i = 0; i < cells.length; i++) {
+            //     cells[i].style.backgroundColor = "lightblue";
+            // }
+
+            // 예시2) foreach 사용 (HTMLCollection 이라서 Array로 변환해야함)
+            // foreach 는 Array를 Iterate할수 있음.. (Iterable)
+            // Array.from(cells).forEach(cell => cell.style.backgroundColor = "lightblue")
+
+            // 예시3) for .. of
+            for (var cell of cells) {
+                cell.style.backgroundColor = "lightblue"
+            }
+        }
+
+        // 미션2: 홀수색상변경 기능구현(함수)
+        function changeOddColor() {
+            var cells = document.getElementsByTagName('td');
+
+            for (var i = 0; i < cells.length; i++) {
+                if (i % 2 !== 1) { // 2로 나눠서 나머지가 1이 아니면 홀수 셀임 (왜? 인덱스가 0번부터 출발해서.. 홀짝이 사실 반대임..)
+                    cells[i].style.backgroundColor = "lightgreen";
+                }
+            }
+        }
+
+        // 미션2-2: 짝수색상변경 기능구현(함수)
+        function changeEvenColor() {
+            var cells = document.getElementsByTagName('td');
+
+            for (var i = 0; i < cells.length; i++) {
+                if (i % 2 !== 0) { // 2로 나눠서 나머지가 1이 아니면 홀수 셀임 (왜? 인덱스가 0번부터 출발해서.. 홀짝이 사실 반대임..)
+                    cells[i].style.backgroundColor = "lightpink";
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

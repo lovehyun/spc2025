@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+
+    </style>
+    <script>
+
+    </script>
+</head>
+<body>
+    <button onclick="clickButton1()">헬로우버튼</button>
+    <button onclick="clickButton2()">굳바이버튼</button>
+    <script>
+        function clickButton1() {
+            document.write("Hello, World");
+        }
+        function clickButton2() {
+            // document.write("Goodbye, World");
+            for (var i = 1; i <= 5; i++) {
+                document.write("<p>")
+                document.write("숫자: " + i)
+                document.write("</p>")
+            }
+        }
+    </script>
+</body>
+</html>

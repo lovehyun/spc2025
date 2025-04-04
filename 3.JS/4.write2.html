@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+
+    </style>
+    <script>
+
+    </script>
+</head>
+<body>
+    <h1>도큐먼트에 자바스크립트로 내용 출력하기</h1>
+    <p id="mytext" class="text">여기에 본문 내용 작성하기</p>
+    <p class="text">여기에 본문 내용 작성하기</p>
+    <p class="text">여기에 본문 내용 작성하기</p>
+    <script>
+        console.log("헬로우??");
+        // const mytext = document.getElementById("mytext");
+        // const mytext = document.getElementsByClassName("text");
+
+        const mytext = document.getElementsByTagName("p")
+
+        console.log(mytext[2]);
+        mytext[2].innerText = "헬로우 자바스크립트"
+    </script>
+</body>
+</html>

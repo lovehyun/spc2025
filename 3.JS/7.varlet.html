@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="hello()">버튼1</button>
+    <button onclick="bye()">버튼2</button>
+    <script>
+        
+        function hello() {
+            var score = 80;
+            if (score > 50) {
+                // var result = 100;  // 전역이라 가능
+                let result = 100;    // 로컬이라 아래서 오류남
+                console.log(score);
+            }
+
+            console.log(result);
+        }
+
+        function bye() {
+            console.log(score);
+        }
+    </script>
+</body>
+</html>
