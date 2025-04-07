@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* tag, class(.), id(#) */
+        #myButton {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <button id="myButton">클릭하시오</button>
+    <script>
+        // document.getElementById('myButton').addEventListener('click', function() {
+        //     console.log("버튼클릭됨");
+        // });
+
+        // 이 클릭은, 또 더 세분화 할 수 있음...  
+        document.getElementById('myButton').addEventListener('mousedown', function(e) {
+            // console.log("버튼눌림, 이벤트: ", event);
+            // if (e.button === 0) {
+            //     console.log("왼쪽 클릭");
+            // } else if (e.button === 1) {
+            //     console.log("가운데/휠 클릭");
+            // } else if (e.button === 2) {
+            //     console.log("오른쪽 클릭");
+            // }
+
+            switch (e.button) {
+                case 0: // 좌클릭
+                    console.log("왼쪽 버튼 클릭");
+                    break;
+                case 1: // 미들클릭
+                    console.log("중간 버튼 클릭");
+                    break;
+                case 2: // 우클릭
+                    console.log("오른쪽 버튼 클릭");
+                    break;
+                default: // 여기는 그외 나머지 실행됨
+                    console.log("그외나머지버튼")
+            }
+        });
+
+        // document.getElementById('myButton').addEventListener('mouseup', function() {
+        //     console.log("버튼눌린거뗌");
+        // });
+    </script>
+</body>
+</html>

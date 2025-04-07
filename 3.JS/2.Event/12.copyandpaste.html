@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <textarea id="myTextArea">여기 있는 파일을 복사해 보시오</textarea>
+    <script>
+        document.getElementById('myTextArea').addEventListener('copy', function(event) {
+            event.preventDefault(); // 원래 본연의 기능 못하게 하기...
+            // event.clipboardData.setData('text/plain', '복사 금지!!');
+            alert('불펌금지!!');
+        });
+
+        document.getElementById('myTextArea').addEventListener('paste', function(event) {
+            event.preventDefault(); // 원래 본연의 기능 못하게 하기...
+            alert('남의코드 붙여넣지 말고, 직접 구현하시오!!');
+        });
+    </script>
+</body>
+</html>

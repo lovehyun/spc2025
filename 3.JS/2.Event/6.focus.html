@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="myInput">
+    <script>
+        document.getElementById('myInput').addEventListener('focus', function() {
+            console.log("입력창 포커스 됨");
+        })
+
+        document.getElementById('myInput').addEventListener('blur', function() {
+            console.log("입력창 언포커스 됨.. 근데 왜 블러야!! (사진처럼...)");
+        })
+    </script>
+</body>
+</html>

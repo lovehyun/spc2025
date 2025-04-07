@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // HTML, CSS, JS, 이미지ㅐ 등 모두 완전히 로딩이 끝났음.
+        // 이거만, 다른 이벤트 대비해서 문법이 다름.. (나중에 따로 생겨난거라서..)
+        // window.onload = function() {
+        //     console.log("모든 로딩이 끝남");
+        // }
+        window.onload = () => console.log("모든 로딩이 끝남");
+
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM 로딩이 끝남");
+        });
+    </script>
+</body>
+</html>

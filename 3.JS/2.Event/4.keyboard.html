@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #displayKey {
+            font-size: 100px;
+            text-align: center;
+            margin-top: 50px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="myInput" readonly>
+    <div id="displayKey"></div>
+
+    <script>
+        const myInput = document.getElementById('myInput');
+        const myDisplay = document.getElementById('displayKey');
+
+        document.addEventListener('keydown', function(event) {
+            console.log("키보드 눌림", event.key);
+            myInput.value += event.key;
+        });
+        document.addEventListener('keyup', function(event) {
+            console.log("키보드 눌림(들림)", event.key);
+            myDisplay.textContent = event.key;
+        });
+    </script>
+</body>
+</html>

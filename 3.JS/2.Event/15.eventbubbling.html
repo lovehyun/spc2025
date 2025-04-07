@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            padding: 50px;
+        }
+        #child {
+            background-color: cyan
+        }
+        #parent {
+            background-color: lightcoral;
+        }
+        #grandparent {
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+<body>
+    <div id="grandparent">
+        할배(조부모)
+        <div id="parent">
+            부모
+            <div id="child">
+                자식
+            </div>
+        </div>
+    </div>
+    <script>
+        const child = document.getElementById('child');
+        const parent = document.getElementById('parent');
+        const grandparent = document.getElementById('grandparent');
+
+        child.addEventListener('click', (event) => {
+            event.stopPropagation();
+            alert('child 클릭됨');
+        })
+
+        parent.addEventListener('click', (event) => {
+            event.stopPropagation();
+            alert('parent 클릭됨');
+        })
+
+        grandparent.addEventListener('click', (event) => {
+            event.stopPropagation();
+            alert('grandparent 클릭됨');
+        })
+    </script>
+</body>
+</html>

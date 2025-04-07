@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        console.log("Hello, head");
+    </script>
+</head>
+<body>
+    <script>
+        // 1. OLD 스타일
+        // function myhandler() {
+        //     console.log("DOM로딩 완료");
+        // }
+
+        // document.addEventListener('DOMContentLoaded', myhandler);
+        // console.log("Hello, body");
+
+        // 2. 일반 익명함수 스타일
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     console.log("DOM로딩 완료");
+        // })
+
+        // 3-1. 모던JS의 한줄짜리 화살표함수 표현법
+        // document.addEventListener('DOMContentLoaded', () => console.log("DOM로딩 완료"));
+        
+        // 3-2. 모던JS의 멀티라인 화살표함 표현법 
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM 의 로딩이 끝났을때 'DOMContentLoaded' 라는 이벤트를 브라우저가 발생시켜주고,
+            // 그것을 핸들러를 통해서 호출해줌.
+            // DOM 로딩이 끝났을뿐, 실제 CSS/JS/IMG 거나.. 이런게 다 처리가 끝났다고 보장할수는 없음
+            // DOM 로딩만 끝났다고 보장된다. (HTML Tree가 구성되어 각종 요소(Element) 의 처리가 가능함)
+            console.log("DOM로딩 완료");
+        });
+    </script>
+</body>
+</html>

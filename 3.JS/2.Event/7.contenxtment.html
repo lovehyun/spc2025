@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        document.addEventListener('contextmenu', function(event) {
+            console.log('마우스 우클릭함');
+            event.preventDefault(); // 원래의 기본 동작을 하지 마라..
+            alert('우클릭은 금지되어 있습니다.');
+        });
+    </script>
+</body>
+</html>
