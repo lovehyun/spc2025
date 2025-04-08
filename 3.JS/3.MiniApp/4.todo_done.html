@@ -41,7 +41,8 @@
 
             // 미션3. 삭제 기능 추가
             const deleteButton = new_li.querySelector('.delete');
-            deleteButton.addEventListener('click', () => {
+            deleteButton.addEventListener('click', (e) => {
+                console.log(e);
                 new_li.remove();
             })
         });
