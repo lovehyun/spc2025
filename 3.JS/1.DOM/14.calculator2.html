@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>계산기</title>
+    <style>
+        .calculator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+            max-width: 300px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .calculator input {
+            grid-column: span 4;
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        .calculator button {
+            padding: 10px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="result" readonly>
+        <button onclick="clickSymbol(this.innerText)">+</button>
+        <button onclick="clickSymbol(this.innerText)">-</button>
+        <button onclick="clickSymbol(this.innerText)">*</button>
+        <button onclick="clickSymbol(this.innerText)">/</button>
+        
+        <button onclick="clickNumber(this.innerText)">7</button>
+        <button onclick="clickNumber(this.innerText)">8</button>
+        <button onclick="clickNumber(this.innerText)">9</button>
+        <button onclick="calculate()">=</button>
+
+        <button onclick="clickNumber(this.innerText)">4</button>
+        <button onclick="clickNumber(this.innerText)">5</button>
+        <button onclick="clickNumber(this.innerText)">6</button>
+        <button onclick="clearResult()">C</button>
+
+        <button onclick="clickNumber(this.innerText)">1</button>
+        <button onclick="clickNumber(this.innerText)">2</button>
+        <button onclick="clickNumber(this.innerText)">3</button>
+        <button onclick="clickNumber(this.innerText)">0</button>
+    </div>
+    <script>
+        // 미션1: 7번 입력하기
+        // 미션2: 8번도 입력하기
+        // 미션3: 새로운 숫자로 쓸게 아니고, 원래 있던 숫자 뒤에 이어서 더해서 붙이기....
+        const inputBox = document.getElementById("result");
+
+        function clickNumber(value) {
+            inputBox.value = inputBox.value + value;
+        }
+
+        // 입력된 value가 심볼인지 아닌지 확인하는 함수. 
+        // isXXX 시리즈는, 그 질문에 대해서 true/false로 return 하는 형태로 구현함.
+        function isSymbol(value) {
+            // return "=-*/".includes(value)
+            return ['+', '-', '*', '/'].includes(value)
+        }
+
+        function clickSymbol(value) {
+            // 숙제1. 심볼은 하나만 입력되어야함. (나의 이전 문자를 보고, 이전에 숫자가 있을때만 심볼 누르기)
+            const lastInput = inputBox.value.slice(-1); // 가장 최근 값
+            // const lastInput = inputBox.value.charAt(inputBox.value.length - 1) // <-- 내가 가져오고 싶은 글자의 위치
+            // console.log(lastInput)
+
+            // 심볼이 입력되었어??
+            if (isSymbol(lastInput)) {
+                inputBox.value = inputBox.value.slice(0, -1) + value; // 이전 심볼 지우고 오버롸이트
+            } else {
+                inputBox.value = inputBox.value + value;
+            }
+
+            // if (lastInput === "+" || lastInput === "-" || lastInput === "*" || lastInput === "/") {
+            //     // 이전에 심볼 입력됨
+            // } else {
+            //     inputBox.value = inputBox.value + value;
+            // }
+
+            // if (lastInput === "+") {
+            //     // 이전에 + 입력됨
+            // } else if (lastInput === "-") {
+            //     // 이전에 - 입력됨
+            // } else if (lastInput === "*") {
+            //     // 이전에 * 입력됨
+            // } else if (lastInput === "/") {
+            //     // 이전에 / 입력됨
+            // } else {
+            //     // 숫자
+            //     inputBox.value = inputBox.value + value;
+            // }
+ 
+        
+            // inputBox.value = inputBox.value + value;
+        }
+        // 숙제2. 연산을 실제로 해야함 (=을 클릭하면 그 연산 수행하기)
+
+        function clearResult() {
+            inputBox.value = "";
+        }
+
+        function calculate() {
+            console.log(inputBox.value);
+            console.log(eval(inputBox.value));
+
+            inputBox.value = eval(inputBox.value);
+        }
+    </script>
+</body>
+</html>
