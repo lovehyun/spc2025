@@ -59,20 +59,32 @@
 
         document.getElementById('prev').addEventListener('click', () => {
             images[currentIndex].classList.remove('active');
-            currentIndex = currentIndex - 1;
-            if (currentIndex < 0) {
-                currentIndex = images.length - 1;
-            }
+            // currentIndex = currentIndex - 1;
+            // if (currentIndex < 0) {
+            //     currentIndex = images.length - 1;
+            // }
+
+            // if (currentIndex === 0) {
+            //     currentIndex = images.length - 1;
+            // } else {
+            //     currentIndex = currentIndex - 1;
+            // }
+
+            // if ... else ... 멀티라인을... 1줄로 코딩하는 기법을 "3항 연산자"
+            // currentIndex = if (   ) xxx : yyy
+            currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+
             images[currentIndex].classList.add('active');
             updateFilename();
         })
 
         document.getElementById('next').addEventListener('click', () => {
             images[currentIndex].classList.remove('active');
-            currentIndex = currentIndex + 1;
-            if (currentIndex > images.length - 1) {
-                currentIndex = 0;
-            }
+            // currentIndex = currentIndex + 1;
+            // if (currentIndex > images.length - 1) {
+            //     currentIndex = 0;
+            // }
+            currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
             images[currentIndex].classList.add('active');
             updateFilename();
         })

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #todo-list li {
+            cursor: pointer;
+        }
+        #todo-list li.done {
+            text-decoration: line-through; /* 취소선 */
+        }
+    </style>
+</head>
+<body>
+    <h1>투두(Todo) 리스트</h1>
+    <input id="new-todo" type="text" placeholder="할 일 추가">
+    <button id="add-todo">Add</button>
+    <hr>
+    <ul id="todo-list"></ul>
+    <script>
+        document.getElementById('add-todo').addEventListener('click', () => {
+            const inputBox = document.getElementById('new-todo')
+            const todoList = document.getElementById('todo-list');
+            
+            if (inputBox.value.trim() === '') return;
+
+            const new_li = document.createElement('li');
+            // new_li.textContent = inputBox.value;
+            new_li.innerHTML = `${inputBox.value} <button class="delete">삭제</button>`;
+            
+            inputBox.value = "";
+            todoList.appendChild(new_li);
+
+            // 미션2. 완료기능 구현
+            // 미션2-1. 각 요소마다 클릭 가능한 이벤트를 추가한다
+            new_li.addEventListener('click', () => {
+                // 미션2-2. 그 요소를 클릭했을때 디자인 속성을 추가(done)
+                new_li.classList.toggle('done');
+            })
+
+            // 미션3. 삭제 기능 추가
+            const deleteButton = new_li.querySelector('.delete');
+            deleteButton.addEventListener('click', () => {
+                new_li.remove();
+            })
+        });
+
+
+        document.getElementById('new-todo').addEventListener('keydown', (e) => {
+            if (event.key === 'Enter') {
+                document.getElementById('add-todo').click();
+            }
+        })
+
+    </script>
+</body>
+</html>
