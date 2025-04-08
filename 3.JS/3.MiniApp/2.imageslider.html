@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .slider {
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto; 
+            align-items: center;
+        }
+        .slider img {
+            width: 200px;
+            height: 200px;
+            display: none;
+        }
+        .slider img.active {
+            display: block;
+        }
+        .buttons {
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>이미지 슬라이더</h1>
+    <div class="slider">
+        <img id="img1" src="images/cat1.jpg" class="active" alt="고양이1">
+        <img id="img2" src="images/cat2.jpg" alt="고양이2">
+        <img id="img3" src="images/cat3.jpg" alt="고양이3">
+
+        <div class="filename" id="filename">images/cat1.jpg</div>
+
+        <div class="buttons">
+            <button id="prev">이전</button>
+            <button id="next">다음</button>
+        </div>
+    </div>
+    <script>
+        // 미션1. 버튼 가져다가, 클릭하면, class=active 를 다음거로 이동하기... 파일명 등등.. 갱신
+
+        // 주요관점1: class 를 어떻게 이동하느냐? => 필요에 따라 add/remove
+        // 주요관점2: 이미지가 끝까지 갔을때 다시 처음으로 오려면? (또는 반대)
+
+        const images = document.querySelectorAll('.slider img');
+        let currentIndex = 0;
+
+        // document.getElementById('prev').addEventListener('click', function () {
+        // });
+
+        // 언제나, 복잡한 연산을 자꾸 한번에 하려고 하지 마라...
+        // 작게 작게... 최소 단위로,, 하나씩 구현해볼것..
+
+        document.getElementById('prev').addEventListener('click', () => {
+            images[currentIndex].classList.remove('active');
+            currentIndex = currentIndex - 1;
+            if (currentIndex < 0) {
+                currentIndex = images.length - 1;
+            }
+            images[currentIndex].classList.add('active');
+            updateFilename();
+        })
+
+        document.getElementById('next').addEventListener('click', () => {
+            images[currentIndex].classList.remove('active');
+            currentIndex = currentIndex + 1;
+            if (currentIndex > images.length - 1) {
+                currentIndex = 0;
+            }
+            images[currentIndex].classList.add('active');
+            updateFilename();
+        })
+
+        function updateFilename() {
+            const filename = document.getElementById('filename');
+            
+            // filename.textContent = images[currentIndex].src;
+            // 어?? 이게 full path 가 나오네?? 내가 원하는것은 파일명만 원하면??
+            
+            const shortfilename = images[currentIndex].src.split('/').pop(); // '/' 로 짤라낸 리스트에서 맨 뒤의 아이템 하나만 뽑아오기
+            filename.textContent = shortfilename;
+        }
+
+        // 최초 로딩시에도 경로 제외하고 파일명만 남기기 위해서 함수 최초 호출...
+        updateFilename();
+    </script>
+</body>
+</html>

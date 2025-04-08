@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .gallery img {
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        #large-image {
+            display: none;
+            max-width: 100%;
+            margin: 20px auto;
+        }
+
+        #large-image-container {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>이미지 겔러리</h1>
+    <div class="gallery">
+        <img id="img1" src="images/cat1.jpg" alt="고양이1">
+        <img id="img2" src="images/cat2.jpg" alt="고양이2">
+        <img id="img3" src="images/cat3.jpg" alt="고양이3">
+    </div>
+
+    <!-- 방법1. 빈 이미지를 사용해서 주소(src) 를 변경 -->
+    <!-- <img id="large-image" src="" alt="큰 고양이"> -->
+    <div id="large-image-container">
+
+    </div>
+
+    <script>
+        // 미션1. 마우스로 클릭한 이미지를 크게 보여주기
+
+        // const img1 = document.getElementById('img1');
+        // const img2 = document.getElementById('img2');
+        // const img3 = document.getElementById('img3');
+        // const largeImage = document.getElementById('large-image');
+
+        // =============================================
+        // 방법1. 더미(dummy) 빈 이미지를 사용해서 src 치환
+        // =============================================
+        // img1.addEventListener('click', function() {
+        //     largeImage.src = img1.src;
+        //     largeImage.style.display = 'block';
+        // })
+
+        // img2.addEventListener('click', function() {
+        //     largeImage.src = img2.src;
+        //     largeImage.style.display = 'block';
+        // })
+
+        // img3.addEventListener('click', function() {
+        //     largeImage.src = img3.src;
+        //     largeImage.style.display = 'block';
+        // })
+
+        // 위에 이 반복적인 코드를 어떻게 없앨까??? 반복 처리를... 자동화 하는게.. 반복문...
+        // for 루프...
+        // const images = [img1, img2, img3];
+
+        // for (let i = 0; i < images.length; i++) { // 매우 OLD 스타일...
+        //     images[i].addEventListener('click', function() {
+        //         largeImage.src = images[i].src;
+        //         largeImage.style.display = 'block';
+        //     })
+        // }
+
+        // images.forEach(function(img) { // Modern 한 JS 스타일 (forEach)
+        //     img.addEventListener('click', function() {
+        //         largeImage.src = img.src;
+        //         largeImage.style.display = 'block';
+        //     })
+        // })
+
+        // 변수조차 사전에 선언 안하고, LoC (line-of-code) 를 최소화 한 형태
+        // document.querySelectorAll('.gallery img').forEach(function(img) {
+        //     img.addEventListener('click', function() {
+        //         const largeImage = document.getElementById('large-image');
+        //         largeImage.src = img.src;
+        //         largeImage.style.display = 'block';
+        //     })
+        // })
+
+        // =============================================
+        // 방법2. 더미(dummy) div를 사용해서 img 삽입
+        // =============================================
+        document.querySelectorAll('.gallery img').forEach(function(img) {
+            img.addEventListener('click', function() {
+                // img 추가
+                const newimg = document.createElement('img');
+                newimg.src = img.src
+                newimg.style.maxWidth = '100%';
+                newimg.style.margin = '20px auto';
+
+                const container = document.getElementById('large-image-container');
+                container.innerHTML = '';
+                container.appendChild(newimg);
+            })
+        });
+
+    </script>
+</body>
+</html>
