@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="400" height="300"></canvas>
+    
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d'); // 위에꺼를 한줄로 쓰면 이렇게...
+        let x = 0;
+        let direction = 1;
+
+        function draw() {
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+
+            ctx.fillStyle = 'red';
+            ctx.fillRect(x, 50, 50, 50);
+
+            x += 5 * direction; // x = x + 1;
+            if (x > canvas.width) { // 화면 끝에 갔으면?? 방향 바꾸기..
+                direction = -1;
+            } 
+            
+            if (x < 0) { // 화면 앞에 왔으면?? 방향 바꾸기...
+                direction = 1;
+            }
+
+            // 미션1. 이 네모가 끝끼지 간다음에 앞에서 나오는게, 거꾸로 오게 하려면??
+            // 미션2. 왜 오른쪽에는 넘어갈까? 어덯게 해결할까??
+            
+            requestAnimationFrame(draw)
+        }
+
+        draw();
+    </script>
+</body>
+</html>

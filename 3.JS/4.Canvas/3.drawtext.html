@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px dotted black
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="400" height="300"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const context = canvas.getContext('2d');
+
+        context.font = "30px Arial";
+        context.fillStyle = '#0095DD'; // 랜덤 색상
+
+        context.fillText('Hello, Canvas!', 50, 100);
+
+        context.font = 'italic 40px Times New Roman';
+        context.fillStyle = 'red';
+        context.fillText('Styled Text', 50, 160);
+
+        const gradient = context.createLinearGradient(0, 0, canvas.width, 0);
+        gradient.addColorStop(0, 'red');
+        gradient.addColorStop(0.2, 'green');
+        gradient.addColorStop(0.5, 'blue');
+        context.fillStyle = gradient;
+        // context.fillRect(0,0, canvas.width, canvas.height);
+
+        context.fillText('Canvas Text', 50, 200);
+
+
+    </script>
+</body>
+</html>

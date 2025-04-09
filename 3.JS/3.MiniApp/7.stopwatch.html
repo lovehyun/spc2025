@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스탑워치 앱</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column; /* 수직 정렬 */
+            align-items: center; /* 센터 중앙 정렬 */
+            margin: 0;
+            height: 100vh; /* 화면 전체 크기 */
+            justify-content: center; /* 세로 가운데 정렬 */
+            background-color: rgb(218, 218, 218);
+        }
+        #display {
+            font-size: 48px;
+        }
+        .button-container {
+            gap: 10px;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="display">00:00.00</div>
+    <div class="button-container">
+        <button id="startButton">Start</button>
+        <button id="stopButton">Stop</button>
+        <button id="resetButton">Reset</button>
+    </div>
+
+    <script>
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const resetButton = document.getElementById('resetButton');
+        const display = document.getElementById('display');
+        
+        let startTime; // 스탑워치 시작 시간
+        let updatedTime; // 업데이트된 시간
+        let timerInterval;
+        let diff = 0; // 경과시간
+        let running = false; // 스탑워치의 실행 여부 (현재 실행중이냐 아니냐)
+
+        const HOUR_MS = 1000 * 60 * 60;
+        const MINUTE_MS = 1000 * 60;
+
+        function startTimer() {
+            if (!running) {
+                // 실행중이 아닐때
+                startTime = new Date().getTime() - (diff); // 시작 시간 저장
+                timerInterval = setInterval(updateTimer, 100); // 10 ms 단위
+                running = true;
+            }
+        }
+
+        function updateTimer() {
+            updatedTime = new Date().getTime(); // 현재 시간 저장
+            diff = updatedTime - startTime; // 경과 시간 계산 (ms)
+
+            let minutes = Math.floor(diff % HOUR_MS / MINUTE_MS); // 분 계산 (시간빼고 분계산)
+            let seconds = Math.floor(diff % (MINUTE_MS) / 1000); // 초 계산 (분빼고 초계산)
+            let milliseconds = Math.floor((diff % 1000) / 10); // 밀리초 계산 (초빼고 밀리초계산)
+
+            // console.log(`${minutes}분, ${seconds}초, ${milliseconds}ms`);
+            display.textContent = 
+                (minutes < 10 ? '0' + minutes : minutes) + ":" + 
+                (seconds < 10 ? '0' + seconds : seconds) + "." + 
+                (milliseconds < 10 ? '0' + milliseconds : milliseconds);
+
+            // display.textContent = 
+            //     String(minutes).padStart(2, '0') + ":" +
+            //     String(seconds).padStart(2, '0') + "." +
+            //     String(milliseconds).padStart(2, '0');
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            running = false;
+
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            diff = 0;
+            display.textContent = '00:00.00';
+        }
+
+        startButton.addEventListener('click', startTimer);
+        stopButton.addEventListener('click', stopTimer);
+        resetButton.addEventListener('click', resetTimer);
+    </script>
+</body>
+</html>
