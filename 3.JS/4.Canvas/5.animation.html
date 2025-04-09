@@ -18,15 +18,17 @@
         const ctx = canvas.getContext('2d'); // 위에꺼를 한줄로 쓰면 이렇게...
         let x = 0;
         let direction = 1;
+        const BOX_SIZE = 50
+        const START_Y = 100
 
         function draw() {
             ctx.clearRect(0,0, canvas.width, canvas.height);
 
             ctx.fillStyle = 'red';
-            ctx.fillRect(x, 50, 50, 50);
+            ctx.fillRect(x, START_Y, BOX_SIZE, BOX_SIZE);
 
             x += 5 * direction; // x = x + 1;
-            if (x > canvas.width) { // 화면 끝에 갔으면?? 방향 바꾸기..
+            if (x > canvas.width - BOX_SIZE) { // 화면 끝에 갔으면?? 방향 바꾸기..
                 direction = -1;
             } 
             

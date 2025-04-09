@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="600" height="400"></canvas>
+    
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let startAngle = 0.2 * Math.PI;
+        let endAngle = 1.8 * Math.PI;
+        let direction = 1; // 입이 이동하는 방향 (좁아... 넓어...)
+        let angleIncrement = 0.02 * Math.PI; // 입이 이동하는 속도
+
+        function drawPacman() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.beginPath();
+            ctx.moveTo(350, 200);
+            ctx.arc(350, 200, 30, startAngle, endAngle);
+            ctx.fillStyle = 'yellow';
+            ctx.fill();
+            ctx.closePath();
+
+        }
+
+        function updateAngles() {
+            if (startAngle <= 0 || startAngle >= 0.25 * Math.PI) {
+                direction *= -1; // direction = direction * -1;
+            }
+            startAngle += angleIncrement * direction;
+            endAngle -= angleIncrement * direction;
+        }
+
+        function animate() {
+            drawPacman();
+            updateAngles();
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
