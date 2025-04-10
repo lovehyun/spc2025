@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="p-4">
+    <h1>부스스트랩 display 예제</h1>
+    <section class="mb-5">
+        <h3>1. d-* 클래스</h3>
+        <div class="d-block bg-light p-2 border mb-2">d-block 블럭 요소</div>
+        <div class="d-inline bg-warning p-2 border">d-inline 인라인 요소</div>
+        <div class="d-inline bg-success p-2 border">d-inline 인라인 요소</div>
+    </section>
+
+    <section class="mb-5">
+        <h3>2. visible/invisible 클래스</h3>
+        <div class="bg-success text-white p-2 mb-2">항상 보이는 요소</div>
+        <div class="bg-secondary text-white p-2 mb-2 invisible">항상 안보이는 요소 (하지만 공간은 차지하고 있음)</div>
+    </section>
+
+    <section class="mb-5">
+        <h3>3. d-none 및 조건부 표시</h3>
+        <div class="d-none">이건 d-none이라 안보임</div>
+
+        <!-- d: display, sm: small(작은해상도) -->
+        <div class="d-sm-block d-md-none bg-primary text-white p-2">여기있는글자는 작은해상도에서만 보이는 글자임 (sm:576px)</div>
+        <div class="d-none d-md-block bg-success text-white p-2">중간 이상 화면에서만 보임 (md:768px)</div>
+    </section>
+
+    <section class="mb-5">
+        <h3>4. 마진(m-*), 패딩(p-*) 클래스</h3>
+        <div class="bg-light border p-2 mb-2">기본 박스</div>
+        <div class="bg-light border p-2 m-3">m-3 모든 방향 1rem</div>
+        <div class="bg-light border p-2 ms-5">m-5 모든 방향 마진 3rem, ms-5 좌우(사이드) 방향 마진 3rem</div>
+    </section>
+
+    <section class="mb-5">
+        <h3>5. Flex 레이아웃</h3>
+        <div class="d-flex gap-2">
+            <div class="bg-primary text-white p-2">플렉스 아이템1</div>
+            <div class="bg-secondary text-white p-2">플렉스 아이템2</div>
+        </div>
+    </section>
+
+    <section class="mb-5">
+        <h3>6. Grid 레이아웃</h3>
+        <div class="d-grid gap-2" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="bg-primary text-white p-2">그리드 셀1</div>
+            <div class="bg-secondary text-white p-2">그리드 셀2</div>
+            <div class="bg-success text-white p-2">그리드 셀2</div>
+            <div class="bg-warning text-white p-2">그리드 셀2</div>
+            <div class="bg-danger text-white p-2">그리드 셀2</div>
+            <div class="bg-info text-white p-2">그리드 셀2</div>
+        </div>
+    </section>
+</body>
+</html>
+ 

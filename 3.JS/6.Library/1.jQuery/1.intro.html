@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script src="jquery.min.js"></script> -->
+    <!-- <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.7.1.slim.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
+</head>
+<body>
+    <h1 id="myHeading">헬로우 제이쿼리</h1>
+    <button id="myButton">글자 바꾸기</button>
+
+    <script>
+        $(document).ready(function () {
+            $('#myButton').click(function () {
+                $('#myHeading').text('제이쿼리로 글자바꿈!!');
+            });
+        });
+
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     document.getElementById('myButton').addEventListener('click', function () {
+        //         document.getElementById('myHeading').textContent = '글자 바뀜!!'
+        //     })
+        // })
+    </script>
+</body>
+</html>

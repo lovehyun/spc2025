@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>외부 서버로부터 데이터 가져오기</h1>
+    <div id="result">
+        <!-- 가져온 데이터 표시할곳 -->
+    </div>
+    <script>
+        // const ret = fetch('https://jsonplaceholder.typicode.com/posts/1');
+        // console.log(ret);
+
+        fetch('https://jsonplaceholder.typicode.com/posts/2')
+            .then((response) => {
+                return response.json(); // Response 객체를 response 라는 변수에 담아서 왔는데,
+                                        // 그 변수 안에 있는 객체의 json이라는 함수를 통해서, 
+                                        // 실제 데이터를 반환
+            })
+            .then((data) => {
+                // console.log(data);
+                const title = data.title;
+                const content = data.body;
+                
+                // 원하는 데이터를 받아다가 다시 우리 페이지에 렌더링...
+                document.getElementById('result').innerHTML = 
+                    `<p><strong>타이틀:</strong> ${title}` +
+                    `<p><strong>본문:</strong> ${content}`
+            })
+            .catch((error) => {
+                document.getElementById('result').innerHTML = 
+                    `<p><strong>오류:</strong>데이터를 가져오는데 실패했습니다. (오류: ${error})`
+            })
+    </script>
+</body>
+</html>

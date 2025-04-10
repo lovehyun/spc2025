@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart"></canvas>
+
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        const barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['A', 'B', 'C', 'D', 'E'],
+                datasets: [
+                    {
+                        label: 'Title of my chart',
+                        data: [12, 9, 3, 5, 2],
+                        backgroundColor: ['red', 'blue', 'yellow', 'green', 'orange']
+                    }
+                ]
+            }
+        })
+    </script>
+</body>
+</html>

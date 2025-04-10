@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container my-4">
+        <button id="loadButton" class="btn btn-primary">
+            <div class="spinner-border spinner-border-sm d-none" role="status"></div>
+            Load Data
+        </button>
+    </div>
+    <script>
+        // 미션1. Load Data 버튼 추가하고, 
+        // 클릭했을때 뱅그르르 돌아가게 변경 (버튼 컴포넌트에 없음. 컴포넌트 어딘가에 있음..)
+        const loadButton = document.getElementById('loadButton');
+        const spinner = loadButton.querySelector('.spinner-border-sm');
+
+        loadButton.addEventListener('click', () => {
+            loadButton.disabled = true;
+            spinner.classList.remove('d-none');
+        })
+    </script>
+</body>
+</html>

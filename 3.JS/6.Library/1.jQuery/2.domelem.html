@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+</head>
+<body>
+    <h1>쇼핑리스트</h1>
+    <ul id="shoppingList">
+        <li>빵</li>
+        <li>우유</li>
+        <li>달걀</li>
+    </ul>
+    <input text="text" id="newItem" placeholder="새로운 상품 추가...">
+    <button id="addItemBtn">추가</button>
+
+    <script>
+        // DOM 로딩이 끝나길 기다림
+        $(document).ready(function () {
+            // 버튼 클릭 시 실행
+            $('#addItemBtn').click(function () {
+                // 새로운 아이템의 값 가져오기
+                const newItem = $('#newItem').val()
+
+                // 가져온 아이템이 빈값이 아닐경우
+                if (newItem !== '') {
+                    // 새로운 DOM 요소 만들어서 추가
+                    $('#shoppingList').append('<li>' + newItem + '</li>');
+                    // 입력 필드 지우기
+                    $('#newItem').val('');
+                }
+            })
+        })
+
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     const addItemBtn = document.getElementById('addItemBtn');
+
+        //     addItemBtn.addEventListener('click', function () {
+        //         const newItemInput = document.getElementById('newItem');
+        //         const newItemValue = newItemInput.value;
+
+        //         if (newItemValue.trim() !== '') { // 앞뒤 공백 짤라내서 빈값이 아닐경우에만 추가
+        //             const shoppingList = document.getElementById('shoppingList');
+        //             const newItemElement = document.createElement('li');
+
+        //             newItemElement.textContent = newItemValue;
+        //             shoppingList.appendChild(newItemElement);
+
+        //             // 입력 필드 비우기
+        //             newItemInput.value = '';
+        //         }
+        //     })
+        // })
+    </script>
+</body>
+</html>

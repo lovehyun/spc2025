@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>사용자 조회</h1>
+    <input type="number" id="userId" placeholder="유저ID(숫자) 입력">
+    <button id="searchBtn">검색</button>
+    <div id="result">
+        <!-- 가져온 데이터 표시할곳 -->
+    </div>
+    <script> 
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            const userId = document.getElementById('userId').value;
+            console.log('버튼시작');
+
+            fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    const name = data.name;
+                    const phone = data.phone;
+                    console.log('결과받아옴');
+                    
+                    document.getElementById('result').innerHTML = 
+                        `<p><strong>이름:</strong> ${name}` +
+                        `<p><strong>전화번호:</strong> ${phone}`
+                })
+                .catch((error) => {
+                    document.getElementById('result').innerHTML = 
+                        `<p><strong>오류:</strong>데이터를 가져오는데 실패했습니다. (오류: ${error})`
+                })
+
+            console.log('여긴어디??');
+        })
+    </script>
+</body>
+</html>
