@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container m-4">
+        <button id="loadButton" class="btn btn-primary" type="button">
+            <span class="spinner-border spinner-border-sm d-none"></span>
+            Load Data
+        </button>
+        <button id="clearButton" class="btn btn-danger" type="button">
+            <span class="spinner-border spinner-border-sm d-none"></span>
+            Clear
+        </button>
+    </div>
+    <div class="container m-4">
+        <div id="result"><!-- 결과 데이터가 쓰여질공간 --></div>
+    </div>
+
+    <script>
+        const loadButton = document.getElementById('loadButton');
+        const loadButtonSpinner = loadButton.querySelector('.spinner-border');
+        const clearButton = document.getElementById('clearButton');
+        const clearButtonSpinner = clearButton.querySelector('.spinner-border');
+        const result = document.getElementById('result');
+        clearButton.disabled = true;
+
+        const URL = 'https://jsonplaceholder.typicode.com/posts/1';
+
+        loadButton.addEventListener('click', () => {
+            loadButton.disabled = true;
+            loadButtonSpinner.classList.remove('d-none');
+            fetch(URL)
+                .then((response) => response.json()) // 이 데이터 (response.json()) 도 비동기로 처리가 됨.. 그래서 이것도 Promise를 반환함)
+                // .then((response) => {
+                //     jsondata = response.json();
+                //     return jsondata; // 이 결과가 promise 임
+                // })
+                .then((data) => {
+                    // console.log(data);
+                    result.innerHTML = `
+                        <div class="alert alert-success">
+                            <h5>${data.title}</h5>
+                            <p>${data.body}</p>
+                        </div>
+                    `;
+                    loadButtonSpinner.classList.add('d-none');
+                    loadButton.disabled = false;
+                    clearButton.disabled = false;
+                })
+                // .catch((error) => { 실패시 로직을 여기에 구현 })
+        });
+
+        clearButton.addEventListener('click', () => {
+            clearButton.disabled = true;
+            clearButtonSpinner.classList.remove('d-none');
+            function clearResult() {
+                result.innerHTML = '';
+                clearButtonSpinner.classList.add('d-none');
+            }
+            setTimeout(clearResult, 1000);
+        });
+    </script>
+</body>
+</html>
