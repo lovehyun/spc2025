@@ -2,3 +2,6 @@
 
 # 기본 모드 모듈
 node_modules/
+
+# 맥북의 인덱스 파일
+.DS_Store
