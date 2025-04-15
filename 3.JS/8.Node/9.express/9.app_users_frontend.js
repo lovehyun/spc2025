@@ -13,7 +13,10 @@ app.use(express.json()); // payload를 (즉 data영역을) 파싱해서, req.bod
 
 app.get('/', (req, res) => {
     console.log('메인홈');
+    res.sendFile(path.join(__dirname, 'public', 'users.html'));
 });
+
+app.use(express.static('public'));
 
 // 사용자 조회 라우트 및 함수
 app.get('/users', (req, res) => {
