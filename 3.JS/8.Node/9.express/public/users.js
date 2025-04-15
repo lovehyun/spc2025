@@ -55,13 +55,40 @@ document.addEventListener('DOMContentLoaded', () => {
     function editUser(userId) {
         const newName = prompt('수정할 이름을 입력하세요.');
         // 코드를 구현해볼것... PUT 을 어떻게 부를것인가??
+        fetch(`/users/${userId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: newName })
+        })
+            .then(res => { // 나머지 모든 부분에서도 이런식으로 에러처리를 해야 좋음.
+                if (!res.ok) throw new Error('수정 실패');
+                alert('수정 성공');
+                updateTable();
+            })
+            .catch(error => {
+                alert('수정 중 오류 발생');
+            });
     }
 
     function deleteUser(userId) {
-        fetch(`/users/${userId}`, {
-            method: 'DELETE'
-        });
-        updateTable();
+        const confirmDelete = confirm('정말로 삭제하시겠습니까?');
+        if (confirmDelete) {
+            fetch(`/users/${userId}`, {
+                method: 'DELETE'
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error('삭제 실패');
+                    updateTable();
+                    alert('삭제 성공');
+                })
+                .catch(error => {
+                    console.error('삭제 중 오류 발생: ', error);
+                    alert('삭제 중 오류 발생');
+                })
+
+        } else {
+            alert('장난치지 마시오...');
+        }
     }
 
     // 미션1. 입력이 끝났으면, 입력칸 클리어 하기
