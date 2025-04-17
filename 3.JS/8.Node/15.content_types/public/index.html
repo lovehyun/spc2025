@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>서버</h1>
+    <h2>1. JSON 송수신 예제</h2>
+    <textarea id="jsonInput">{ "name":"John", "age": 30 }</textarea>
+    <button id="jsonSendBtn">전송</button>
+
+    <h2>2. 폼데이터 송수신 형태 (x-www-form-urlencoded 형태)</h2>
+    <!-- <form action="/submit-form" method="post"> -->
+    <form>
+        <input type="text" id="formName" placeholder="이름" value="John">
+        <input type="text" id="formAge" placeholder="나이" value="30">
+        <button type="submit" id="formSubmit">전송</button>
+    </form>
+
+    <h2>3. 그냥 plaintext 형태로 주고받기</h2>
+    <textarea id="textInput">그냥 문자열 데이터</textarea>
+    <button id="textSendBtn">전송</button>
+
+    <h2>응답 출력</h2>
+    <pre id="output">응답 결과는 여기에 출력됩니다.</pre>
+
+    <script src="script.js"></script>
+</body>
+</html>
