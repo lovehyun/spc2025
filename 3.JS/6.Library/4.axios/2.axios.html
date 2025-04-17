@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <H1>Fetch를 사용한 외부요청</H1>
+    <button id="loadDataBtn">데이터 로드</button>
+    <button id="postDataBtn">데이터 전송</button>
+    <button id="loadImageBtn">이미지 로드</button>
+    <div id="result"></div>
+    <script>
+        document.getElementById('loadDataBtn').addEventListener('click', async () => {
+            try {
+                const response = await axios.get('https://jsonplaceholder.typicode.com/posts/1');        
+                const data = response.data;
+
+                document.getElementById('result').innerHTML = `
+                    <p><strong>타이틀:</strong>${data.title}
+                    <p><strong>본문:</strong>${data.body}
+                `;
+            } catch (err) {
+                document.getElementById('result').innerHTML = `
+                    <p>오류가 발생했습니다.</p>
+                `
+            }
+        });
+        // 미션1. 좌측에보이는 fetch POST를 axios 로 변경한다.
+        document.getElementById('postDataBtn').addEventListener('click', async () => {
+            const postData = {
+                title: 'foo',
+                body: 'bar',
+                userId: 1
+            };
+
+            const response = await axios.post('https://jsonplaceholder.typicode.com/posts', postData);
+            document.getElementById('result').innerText = JSON.stringify(response.data, null, 2);
+        });
+        // 미션3. 좌측의 fetch 코드를 axios 로 변경한다.
+
+        document.getElementById('loadImageBtn').addEventListener('click', async () => {
+            const response = await axios.get('https://dog.ceo/api/breeds/image/random');
+
+            const imageUrl = response.data.message;
+            document.getElementById('result').innerHTML = `
+                <img src="${imageUrl}" alt="랜덤 멍멍이 이미지" style="max-width: 50%; height: auto;">
+            `;
+        });
+        </script>
+</body>
+</html>

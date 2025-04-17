@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <H1>Fetch를 사용한 외부요청</H1>
+    <button id="loadDataBtn">데이터 로드</button>
+    <button id="postDataBtn">데이터 전송</button>
+    <button id="loadImageBtn">이미지 로드</button>
+    <div id="result"></div>
+    <script>
+        document.getElementById('loadDataBtn').addEventListener('click', () => {
+            fetch('https://jsonplaceholder.typicode.com/posts/1')
+                // .then(response => response.json())
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    document.getElementById('result').innerHTML = `
+                        <p><strong>타이틀:</strong>${data.title}
+                        <p><strong>본문:</strong>${data.body}
+                    `
+                })
+                .catch((error) => {
+                    document.getElementById('result').innerHTML = `
+                        <p>오류가 발생했습니다.</p>
+                    `
+                })
+        });
+        
+        document.getElementById('postDataBtn').addEventListener('click', () => {
+            // const postData_title = 'foo';
+            // const postData_body = 'bar';
+            // const postData_userId = 1;
+            const postData = {
+                title: 'foo',
+                body: 'bar',
+                userId: 1
+            };
+            fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8'
+                },
+                body: JSON.stringify(postData),
+            })
+                .then(response => response.json())
+                .then(json => {
+                    document.getElementById('result').innerText = JSON.stringify(json, null, 2);
+                });
+        })
+
+        document.getElementById('loadImageBtn').addEventListener('click', () => {
+            // 직접 사이트 가서 API 스펙 확인할것: https://dog.ceo/api
+
+            fetch('https://dog.ceo/api/breeds/image/random')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('데이터 수신 오류');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    // 미션2. result 창에 이미지를 출력하시오
+                    const imageUrl = data.message;
+                    // document.getElementById('result').innerHTML = `
+                    //     <img src="${imageUrl}" alt="랜덤 멍멍이 이미지" style="max-width: 50%; height: auto;">
+                    // `;
+                    const loadImage = document.createElement('img');
+                    loadImage.src = imageUrl;
+                    loadImage.alt = '랜덤 멍멍이 이미지'
+                    loadImage.style.maxWidth = '50%';
+                    loadImage.style.height = 'auto';
+
+                    document.getElementById('result').appendChild(loadImage);
+                })
+        })
+    </script>
+</body>
+</html>
