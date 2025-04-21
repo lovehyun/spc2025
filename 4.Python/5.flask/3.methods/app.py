@@ -11,6 +11,7 @@ def login():
     if request.method == "POST":
         user = request.form['name']
         print("폼입력: ", user)
+        # return render_template('user.html')
         return redirect(url_for("user", user=user))
     else:
         return render_template('login.html')

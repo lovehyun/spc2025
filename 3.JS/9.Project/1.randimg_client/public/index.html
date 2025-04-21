@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>랜덤 고양이 불러오기</h1>
+    <button id="loadBtn">야옹~</button>
+    <div id="image-container">
+        <!-- 이미지 담을곳 -->
+    </div>
+    <script>
+        // 미션1. 우리의 플라스크 서버에 요청해서 이미지를 그린다.
+        // 미션1-1. 버튼이 눌리면
+        document.getElementById('loadBtn').addEventListener('click', async () => {
+            const res = await fetch('http://127.0.0.1:5000/random-cat');
+            const data = await res.json();
+            // console.log('최종 이미지 경로: ', data.url);
+            document.getElementById('image-container').innerHTML = `
+                <img src="${data.url}" alt="랜덤고양이">
+            `
+        })
+        // 미션1-2. 요청한다
+        // 미션1-3. 받아온결과로 이미지를 뿌린다 (img 태그 만들라는 이야기...)
+    </script>
+</body>
+</html>
