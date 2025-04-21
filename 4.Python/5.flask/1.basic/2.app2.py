@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, make_response, jsonify
 # from flask import jsonify
 
 
@@ -34,6 +34,19 @@ def get_user_by_id(user_id):
         return jsonify(user)
     else:
         return jsonify({'error': 'User not found'})
+
+@app.route('/search') # /search?name=Alice
+def search_user():
+    query = request.args.get('name')
+    if not query:
+        data = {'error': 'Name is required. 한글 테스트'}
+        response = make_response(jsonify(data))
+        response.headers["Content-Type"] = "application/json; charset=utf-8"
+        return response
+    
+    results = [user for user in users if query.lower() in user['name'].lower()]
+    return jsonify(results)
+    
 
 if __name__ == "__main__":
     app.run()

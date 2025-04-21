@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}">
+</head>
+<body>
+    <h1>홈페이지</h1>
+    <p>여기에 템플릿 엔진이 렌더링한 "{{ text }}" 글자가 나옴</p>
+
+    {% block content %}
+    {% endblock %}
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <img src="{{ url_for('static', filename='img/python.png') }}">
+</body>
+</html>
