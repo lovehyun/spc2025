@@ -12,3 +12,8 @@ node_modules/
 # 크리덴셜(Credential) 은 커밋 제외
 secret.txt
 .env
+
+# DB파일 커밋 제외
+.db
+.sqlite
+.sqlite3
