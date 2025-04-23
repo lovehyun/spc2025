@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="menuContainer">
+        <nav>
+            <ul>
+                <li><a href="/home">HOME</a></li>
+                <li><a href="/products">PRODUCT</a></li>
+                <li><a href="/cart">CART</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    </nav>
+    <div id="loginFormContainer" style="display: none;">
+        <h2>로그인</h2>
+        <form action="/login" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="id를 입력하시오"><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="pw를 입력하시오"><br>
+            <button type="submit" id="login">Login</button>
+        </form>
+    </div>
+    <div id="profile" style="display: none;">
+        <h2>안녕하세요, <span id="usernameSpan"></span> 님</h2>
+    </div>
+
+    <script src="js/home.js"></script>
+</body>
+</html>
