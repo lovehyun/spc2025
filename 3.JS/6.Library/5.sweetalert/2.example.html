@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <button onclick="loginPopup()">로그인</button>
+    <script>
+        async function loginPopup() {
+            const { value: formValues } = await Swal.fire({
+                title: "로그인",
+                html: `
+                    <input id="swal-input-email" class="swal2-input" placeholder="이메일">
+                    <input id="swal-input-password" class="swal2-input" placeholder="비밀번호" type="password" >
+                `,
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: '로그인',
+                cancelButtonText: '취소',
+                preConfirm: () => {
+                    const email = document.getElementById('swal-input-email').value;
+                    const password = document.getElementById('swal-input-password').value;
+                    if (!email || !password) {
+                        Swal.showValidationMessage('모든 필드를 입력하세요!');
+                        return false;
+                    }
+
+                    return { email, password };
+                }
+            });
+
+            if (formValues) {
+                Swal.fire({title: '전송 중...', didOpen: () => Swal.showLoading() });
+                
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(formValues)
+                });
+
+                const data = await res.json();
+                // console.log(data);
+
+                Swal.fire('완료!', data.message, 'success');
+            }
+        }
+    </script>
+</body>
+</html>
