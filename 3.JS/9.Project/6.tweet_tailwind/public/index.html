@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내가 만드는 나만의 트위터</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <nav class="bg-white/80 backdrop-blur-md shadow-md fixed w-full z-10">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex space-x-6">
+                <a href="index.html" class="text-lg font-bold text-blue-600">Home</a>
+                <a id="nav-login" href="login.html" class="text-gray-600 hover:text-blue-500">Login</a>
+                <a id="nav-logout" href="#" onclick="logout()" class="hidden text-gray-600 hover:text-blue-500">Logout</a>
+                <a id="nav-profile" href="profile.html" class="hidden text-gray-600 hover:text-blue-500">Profile</a>
+                <a id="nav-tweet" href="tweet.html" class="hidden text-gray-600 hover:text-blue-500">Tweet</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="pt-20 max-w-2xl mx-auto">
+        <ul id="flash-message" class="mb-4"></ul>
+
+        <div id="tweets" class="space-y-6"></div>
+    </div>
+    <script src="js/common.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
