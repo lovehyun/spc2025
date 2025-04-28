@@ -7,6 +7,7 @@ async function logout() {
     } else {
         alert(data.error);
     }
+    window.location.href = '/index.html';
 }
 
 function showFlash(message, type='success') {
