@@ -11,14 +11,14 @@
         <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="login.html">Login</a></li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="#" onclick="logout()">Logout</a></li>
             <li><a href="profile.html">Profile</a></li>
             <li><a href="tweet.html">Tweet</a></li>
         </ul>
     </nav>
 
     <h1>프로필</h1>
-
+    <div id="flash-message" class="flash-messages"></div>
     <div id="profile-box">
         <form>
             <label>사용자명</label>
@@ -28,6 +28,8 @@
             <button type="submit">프로필 수정</button>
         </form>
     </div>
+
+    <script src="js/common.js"></script>
 
 </body>
 </html>

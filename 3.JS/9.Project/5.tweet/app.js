@@ -6,9 +6,19 @@ const path = require('path');
 
 const app = express();
 
+// 미션
+// 1. 세션 연동한다.
+// 2. 로그인 성공한다.
+// 3. 로그인한 사용자로 글 작성한다.
+
 // 미들웨어
 app.use(morgan('dev'));
 app.use(express.json()); // req.body 안에 프런트엔드에서 보낸 json 이 담긴다.
+app.use(session({
+    secret: 'this-is-my-password',
+    resave: false, // 변경 없어도 매번 저장할거냐?
+    saveUninitialized: false // 초기화 안된것도 저장할거냐?
+}));
 
 // 정적 파일 제공
 app.use(express.static('public'));
@@ -25,6 +35,14 @@ const db = new sqlite3.Database('database.db', (err) => {
     }
 });
 
+// 미들웨어 함수
+function loginRequired(req, res, next) {
+    if (!req.session || !req.session.user) {
+        return res.status(401).json({error: '로그인이 필요합니다'})
+    };
+    next();
+}
+
 // 메인 API -->
 app.post('/api/login', (req, res) => {
     const { email, password } = req.body;
@@ -35,9 +53,22 @@ app.post('/api/login', (req, res) => {
             return res.status(401).json({'error': '로그인에 실패하였습니다.'});
         }
 
+        // 로그인 성공시 내가 원하는것 세션에 저장하기. 뭘?? 내가 원하는것...
+        req.session.user = {
+            id: user.id,
+            username: user.username,
+            email: user.email
+        };
+
         res.json({ message: '로그인 성공!' });
     })
 });
+
+app.post('/api/logout', loginRequired, (req, res) => {
+    req.session.destroy(() => {
+        res.json({ message: '로그아웃 성공!' });
+    });
+})
 
 app.get('/api/tweets', (req, res) => {
     const query = `
@@ -51,12 +82,13 @@ app.get('/api/tweets', (req, res) => {
     })
 });
 
-app.post('/api/tweet', (req, res) => {
+app.post('/api/tweet', loginRequired, (req, res) => {
     const { content } = req.body;
 
     const query = 'INSERT INTO tweet (content, user_id) VALUES (?, ?)';
-    db.run(query, [content, 1], (err) => {
+    db.run(query, [content, req.session.user.id], (err) => {
         if (err) {
+            console.error(err.message);
             return res.status(500).json({ error: '트윗 작성 실패' });
         } else {
             res.json({ message: '트윗 작성 완료' });
