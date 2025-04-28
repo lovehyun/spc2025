@@ -1,0 +1,57 @@
+/* 상단 네브바 디자인 */
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+/* 메인 트윗 디자인 */
+.tweet {
+    border: 1px solid #ccc;
+    padding: 10px; /* 안쪽 공간 */
+    margin-bottom: 10px;
+}
+
+.tweet-body-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tweet-author {
+    display: flex;
+    font-size: 0.9em; /* 살짝 작게 */
+    color: #ccc; /* 회색 */
+    font-style: italic; /* 이탤릭 */
+    justify-content: space-between;
+}
+
+.tweet-action {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 로그인 관련 */
+.flash-messages {
+    list-style-type: none;
+    padding: 0;
+}
+
+.flash-messages li {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px; /* 둥글게 */
+}
+
+.flash-messages li.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.flash-messages li.danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
