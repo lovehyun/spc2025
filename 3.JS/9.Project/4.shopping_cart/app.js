@@ -63,7 +63,7 @@ app.get('/api/products', (req, res) => {
 });
 
 app.post('/api/cart/:productId', (req, res) => {
-    const productId = req.params.productId;
+    const productId = Number(req.params.productId);
     const cart = req.session.cart || [];
 
     const query = 'SELECT * FROM products WHERE id=?';
@@ -71,7 +71,17 @@ app.post('/api/cart/:productId', (req, res) => {
         if (!product) { return res.status(404).json({ message: '상품을 찾을 수 없습니다.'} )};
 
         console.log(product);
-        cart.push({ ...product, quantity: 1})
+        // 담기 전에, 일단 있는지 확인한다..
+        const existingItem = cart.find((item) => item.id === productId); // 숫자 vs 문자 주의
+        if (existingItem) {
+            // 있으면 숫자를 증가한다.
+            // existingItem.quantity++;
+            existingItem.quantity += 1;
+            // existingItem.quantity = existingItem.quantity + 1;
+        } else {
+            // 없으면 새로 추가한다.
+            cart.push({ ...product, quantity: 1})
+        }
 
         req.session.cart = cart;
         res.json({message: '상품 추가 완료'});
