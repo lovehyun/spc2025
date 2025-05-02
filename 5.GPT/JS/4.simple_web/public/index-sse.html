@@ -1,0 +1,13 @@
+<script>
+  const eventSource = new EventSource('/events');
+
+  eventSource.onmessage = function(event) {
+    console.log('New message:', event.data);
+    // You can handle the incoming data as required
+  };
+
+  eventSource.onerror = function(err) {
+    console.error('EventSource error:', err);
+    // Optional: Handle reconnection or error alerts here
+  };
+</script>
