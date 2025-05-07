@@ -1,11 +1,20 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", async function() {
+    // 기본 채팅 윈도우용 DOM
     const userInputForm = document.getElementById("user-input-form");
     const userInputField = document.getElementById("user-input");
     const chatContainer = document.getElementById("chat-container");
+    // 세션 관리용 DOM
+    const sessionListContainer = document.getElementById('session-list-container');
+    const currentSessionId = document.getElementById('current-session-id');
 
-    userInputForm.addEventListener("submit", async function(event) {
+    userInputForm.addEventListener("submit", function(event) {
         event.preventDefault();
+        submitUserInput();
+    });
+
+    async function submitUserInput() {
         const userInput = userInputField.value;
+        const sessionId = currentSessionId.textContent;
 
         // Display user input in chat container
         displayMessage(userInput, "user");
@@ -16,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userInput })
+                body: JSON.stringify({ sessionId, userInput })
             });
 
             hideLoadingIndicator();
@@ -35,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Clear the input field
         userInputField.value = '';
-    });
+    };
 
     function displayMessage(message, sender) {
         const messageElement = document.createElement("p");
@@ -69,4 +78,51 @@ document.addEventListener("DOMContentLoaded", function() {
     function scrollToBottom() {
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
+
+    function appendSession(session) {
+        const sessionDiv = document.createElement('div');
+        sessionDiv.className = 'session-item';
+        sessionDiv.innerHTML = `
+            <div class="session-id">${session.id}</div>
+            <div class="session-start-time">${session.start_time}</div>
+        `
+        sessionListContainer.appendChild(sessionDiv);
+    }
+
+    async function loadAllSessions() {
+        const response = await fetch('/api/all-sessions');
+        const data = await response.json();
+        sessionListContainer.innerHTML = '';
+        data.allSessions.forEach(appendSession);
+    }
+
+    // 새 새션 만들기
+    const newChatButton = document.getElementById('new-chat-button');
+    newChatButton.addEventListener('click', async function() {
+        const response = await fetch('/api/new-session', { method: 'POST' });
+        const data = await response.json();
+        if (data.success) {
+            // 화면에 다시 갱신하기.
+            loadAllSessions();
+        }
+    })
+
+    function displaySessionInfo(sessionData) {
+        currentSessionId.textContent = sessionData.id;
+    };
+
+    async function loadChatHistoryAndSession() {
+        const response = await fetch('/api/current-session');
+        const data = await response.json();
+
+        console.log(data);
+        // data.conversationHistory.forEach(appendMessage);
+
+        displaySessionInfo(data); // 최근(현재세션) 정보를 표시하기
+    }
+
+    // 시작할때 세션 목록 호출
+    await loadAllSessions();
+    // 시작할때 현재 세션 대화 내용 호출
+    await loadChatHistoryAndSession();
 });

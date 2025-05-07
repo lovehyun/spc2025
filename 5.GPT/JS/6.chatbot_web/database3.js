@@ -48,7 +48,7 @@ function getConversationBySession(sessionId) {
 }
 
 function saveMessage(role, userInput, sessionId) {
-    db.prepare('INSERT INTO conversation (role, content, sessino_id) VALUES (?,?,?)').run(role, userInput, sessionId);
+    db.prepare('INSERT INTO conversation (role, content, session_id) VALUES (?,?,?)').run(role, userInput, sessionId);
 }
 
 module.exports = {

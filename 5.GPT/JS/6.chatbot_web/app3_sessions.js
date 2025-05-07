@@ -48,8 +48,8 @@ app.get('/api/session/:sessionId', (req, res) => {
 });
 
 app.post('/api/chat', async (req, res) => {
-    const { userInput } = req.body;
-    console.log('userInput: ', userInput);
+    const { sessionId, userInput } = req.body;
+    console.log(`세션ID: ${sessionId}, 사용자글: ${userInput}`);
 
     const previousConversation = getRecentConversation();
     saveMessage('user', userInput, 1);
