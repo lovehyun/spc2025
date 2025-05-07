@@ -17,9 +17,9 @@ db.exec(`
         content TEXT)
 `);
 
-function getRecentConversation() {
-    const stmt = db.prepare('SELECT * FROM conversation ORDER BY id DESC LIMIT 10'); // 최근 10개의 대화를 가져옴
-    const rows = stmt.all();
+function getRecentConversation(sessionId) {
+    const stmt = db.prepare('SELECT * FROM conversation WHERE session_id=? ORDER BY id DESC LIMIT 10'); // 최근 10개의 대화를 가져옴
+    const rows = stmt.all(sessionId);
     return rows.reverse(); // 최근 10개 가져와서, 오래된 질문을 먼저 넣기 위해서 순서 바꿈...
 }
 
@@ -51,6 +51,10 @@ function saveMessage(role, userInput, sessionId) {
     db.prepare('INSERT INTO conversation (role, content, session_id) VALUES (?,?,?)').run(role, userInput, sessionId);
 }
 
+function getSessionById(sessionId) {
+    return db.prepare("SELECT id, start_time FROM session WHERE id=?").get(sessionId);
+}
+
 module.exports = {
     getRecentConversation,
     newSession,
@@ -58,4 +62,5 @@ module.exports = {
     getCurrentSession,
     getConversationBySession,
     saveMessage,
+    getSessionById,
 }

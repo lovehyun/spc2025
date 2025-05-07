@@ -83,17 +83,47 @@ document.addEventListener("DOMContentLoaded", async function() {
         const sessionDiv = document.createElement('div');
         sessionDiv.className = 'session-item';
         sessionDiv.innerHTML = `
+            <a href="#" class="session-link" data-session-id="${session.id}">
             <div class="session-id">${session.id}</div>
             <div class="session-start-time">${session.start_time}</div>
+            </a>
         `
         sessionListContainer.appendChild(sessionDiv);
     }
+
+    // 세션을 클릭해서 어디로 갈지... 해당 세션의 이전 대화 내용 불러오기
+    function addSessionClickListeners() {
+        const sessionLinks = document.querySelectorAll('.session-link');
+        sessionLinks.forEach(link => {
+            link.addEventListener('click', async (event) => {
+                event.preventDefault();
+                const sessionId = link.dataset.sessionId;
+                if (sessionId === currentSessionId.textContent) return; // 현재 이미 해당 세션이면 불러오지 않음.
+                await showSession(sessionId);
+            })
+        })
+    }
+
+    // 특정 세션 불러오기
+    async function showSession(sessionId) {
+        const response = await fetch(`/api/session/${sessionId}`);
+        const data = await response.json();
+        chatContainer.innerHTML = '';
+        console.log(data);
+        // 새로운 대화 내용 화면에 그리기
+        data.conversationHistory.forEach(item => {
+            displayMessage(item.content, item.role);
+        })
+
+        displaySessionInfo(data);
+    };
 
     async function loadAllSessions() {
         const response = await fetch('/api/all-sessions');
         const data = await response.json();
         sessionListContainer.innerHTML = '';
         data.allSessions.forEach(appendSession);
+        addSessionClickListeners();
     }
 
     // 새 새션 만들기
