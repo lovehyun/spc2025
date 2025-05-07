@@ -23,7 +23,7 @@ app.post('/api/sendQuestion', async (req, res) => {
             model: 'gpt-3.5-turbo',
             messages: [
                 { role: 'system', content: 'You are a helpful assistant.' },
-                { role: 'user', content: question }
+                { role: 'user', content: question },
             ],
         });
 
