@@ -1,5 +1,5 @@
-from langchain_core.prompts import PromptTemplate
-from langchain_openai import OpenAI
+from langchain_core.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
+from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
 
 from langchain_core.runnables import RunnableLambda
@@ -12,10 +12,15 @@ load_dotenv()
 template = "다음의 글을 3문장으로 요약하시오. 각 줄은 50글자 이하로 작성하시오.: \n\n본문: {article}"
 # template = "다음의 글을 3문장으로 요약하시오. 각 줄은 50글자 이하로 작성하시오. 이 글의 제목을 신문기사에 사람들의 이목을 이끌수 있는 과정된 형태로 제목을 붙여줘.:\n\n예) 신문제목: xxx\n하나. xxx\n둘. xxx\n셋. xxx\n\n본문: {article}"
 
-prompt = PromptTemplate(input_variables=["article"], template=template)
-llm = OpenAI(temperature=0.5) # 요약이 목적이니 정확하게...
+prompt = ChatPromptTemplate.from_messages(
+    [
+        HumanMessagePromptTemplate.from_template(template)
+    ]
+)
+# 모델 바꿔보기... gpt-3.5-turbo, gpt-4o, gpt-4o-mini
+llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.5) # 요약이 목적이니 정확하게...
 
-chain = prompt | llm | RunnableLambda(lambda x: {"summary": x.strip()})
+chain = prompt | llm | RunnableLambda(lambda x: {"summary": x.content.strip()}) # 주의 (기존 x 에서 chat모드에서는 x.content 에 담겨서 옴)
 
 input_text = {
     "article": """
