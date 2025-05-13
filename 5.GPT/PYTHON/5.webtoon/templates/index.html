@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>웹툰 제작기</title>
+</head>
+<body>
+    <h1>웹툰 생성기</h1>
+    <form method="post">
+        <textarea name="text" rows="10" cols="60" placeholder="소설을 작성하시오"></textarea>
+        <br /><input type="submit" value="생성" />
+    </form>
+    {% if prompts %}
+        <h2>생성된 쇼트 문장</h2>
+        <ul>
+            {% for prompt in prompts %}
+                <li>{{ prompt }}</li>
+            {% endfor %}
+        </ul>
+        <h2>생성된 이미지</h2>
+        <div>
+            {% for image in images %}
+                <img src="{{ image }}" width="200">
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>
