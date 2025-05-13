@@ -12,7 +12,7 @@
         <nav>
             <ul>
                 {% for grade in grades %}
-                    <li><a href="{{ url_for('grade', grade=grade) }}">{{ grade }}학년</a></li>
+                    <li><a href="{{ url_for('grade', grade=grade) }}" style="font-weight: {% if current_grade == grade %}bold{% else %}normal{% endif %};">{{ grade }}학년</a></li>
                 {% endfor %}
             </ul>
         </nav>
