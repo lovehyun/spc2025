@@ -22,3 +22,6 @@ secret.txt
 DATA/
 chroma_db/
 PDF/
+
+# 파이썬 컴파일 파일 제외
+*.pyc
