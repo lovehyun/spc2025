@@ -103,6 +103,7 @@ chain = (
 def answer_question(question):
     result = chain.invoke(question)
     
+    # 출처 제대로 가져오려면, metadata에서 수동으로 lookup 해야함.
     if "출처:" in result.content:
         answer, sources = result.content.split("출처:", 1)
     else:
