@@ -20,6 +20,7 @@ def upload_file():
     if file:
         file_path = os.path.join(DATA_DIR, file.filename)
         file.save(file_path)
+        create_vector_db(file_path)
         return jsonify({"message":"파일이 성공적으로 업로드 되었습니다."}), 200
 
 @app.route('/ask', methods=['POST'])
@@ -27,7 +28,8 @@ def ask_question():
     data = request.get_json()
     question = data.get('question', '')
     print('질문은: ', question)
-    return jsonify({"answer":"나중에 알려주지롱~"}), 200
+    answer = answer_question(question)
+    return jsonify({"answer":answer}), 200
 
 if __name__ == "__main__":
     app.run(debug=True)

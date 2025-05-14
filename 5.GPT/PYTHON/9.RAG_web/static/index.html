@@ -25,6 +25,9 @@
                 method: 'POST',
                 body: formData
             })
+
+            const result = await response.json();
+            alert(result.message)
         }
 
         async function askQuestion() {
@@ -35,6 +38,8 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({question: question})
             })
+            const result = await response.json();
+            document.getElementById('answer').innerHTML = (result.answer).replace(/\n/g,'<br>');
         }
     </script>
 </body>
