@@ -19,6 +19,7 @@ store = Chroma(
 count = store._collection.count()
 print(f"저장된 문서 개수: {count}")
 
+# 아무 문서나 10개 주시오...
 # results = store._collection.get(include=["documents", "metadatas"], limit=10)
 # ids = results["ids"]
 # docs = results["documents"]
@@ -30,7 +31,7 @@ print(f"저장된 문서 개수: {count}")
 #     print(f"[내용(앞100글자)]: {doc[:100]}")
 #     print(f"[메타데이터]: {metadatas[i]}")
 
-# print("\n\n----------\n\n")
+
 # 상위 5개의 유사 문서 조회
 docs = store.similarity_search("경복궁", k=5)
 for i, doc in enumerate(docs):
