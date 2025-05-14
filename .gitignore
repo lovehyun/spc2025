@@ -20,3 +20,5 @@ secret.txt
 
 # 다운로드 받는 이미지 파일 제외
 DATA/
+chroma_db/
+PDF/
