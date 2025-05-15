@@ -1,6 +1,8 @@
 # 미션. 랭체인 라이브러리 왕창~
 import os
 from dotenv import load_dotenv
+import json
+import yaml
 
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_community.document_loaders import PyPDFLoader
@@ -14,22 +16,25 @@ load_dotenv()
 
 PERSIST_DIR = "./chroma_db"
 COLLECTION_NAME = "my-data"
+DATA_DIR = "./DATA"
 store = None
+PROMPT_FILE = "./prompts.json"
 
 # 프롬푸트 코드
-prompt = ChatPromptTemplate.from_template("""
-당신은 문서 기반으로 사용자의 질문에 답변하는 챗봇입니다.
-다음 문서를 참고해서 사용자의 질문에 답하시오.
-각각의 문서는 번호와 유사도를 포함하고 있어, 답변을 말할때 어떤 문서를 참조했는지도 알려주시오.
+def load_prompts_from_json(file_path):
+    with open(file_path, "r", encoding="utf-8") as f:
+        prompt_data = json.load(f)
+        print(prompt_data)
+        return ChatPromptTemplate.from_template(prompt_data["messages"][0]["content"])
+        #  JS 에서는.. prompt_data["messages"] => prompt_data.messages
 
-문서:
-{context}
-
-질문:
-{question}
-
-답변:
-""")
+def load_prompts_from_yaml(file_path):
+     with open(file_path, "r", encoding="utf-8") as f:
+        prompt_data = yaml.safe_load(f)
+        print(prompt_data)
+        return ChatPromptTemplate.from_template(prompt_data["messages"][0]["content"])
+    
+prompt = load_prompts_from_yaml(PROMPT_FILE)
 
 # LLM 설정
 llm = ChatOpenAI(model='gpt-4o-mini')
@@ -49,11 +54,38 @@ def initialize_vector_db():
         print('이전 데이터의 로딩이 완료되었습니다.')
         return store
 
+def list_files():
+    files = [f for f in os.listdir(DATA_DIR) 
+             if os.path.isfile(os.path.join(DATA_DIR, f))]
+    print(files)
+    return files
+    
+def delete_file(file_path):
+    # 1. DB에서 삭제한다
+    # 컬랙션 내에서 해당 파일을 파싱하면서 생긴 데이터를 지워야 하는데...
+    # metadata에 파일명이 잘 저장되어 있어야함... (metadata.source)
+    result = store._collection.get(where={"source": file_path})
+    docs = result.get("documents", [])
+    metadatas = result.get("metadatas", [])
+    print(f"존재하는 문서수: {len(docs)} {metadatas}")
+    
+    store._collection.delete(where={"source": file_path})
+    
+    # 2. 파일 자체를 삭제하다
+    path = os.path.join(DATA_DIR, file_path)
+    if os.path.exists(path):
+        os.remove(path)
+    
+
 def create_vector_db(file_path):
     global store
     
     loader = PyPDFLoader(file_path)
     documents = loader.load()
+    
+    # 우리의 메타데이터를 추가...
+    for doc in documents:
+        doc.metadata["source"] = os.path.basename(file_path)
 
     print(f"총페이지수: ", len(documents))
 
@@ -74,6 +106,9 @@ def create_vector_db(file_path):
             collection_name=COLLECTION_NAME,
             embedding_function=embeddings,
             persist_directory=PERSIST_DIR)
+        
+        # 내용 추가
+        store.add_documents(texts)
         return store
     else: # 새로 만들기
         store = Chroma.from_documents(

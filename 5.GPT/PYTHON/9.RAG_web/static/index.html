@@ -9,6 +9,10 @@
     <h1>문서기반 챗봇</h1>
     <input type="file" id="fileInput">
     <button onclick="uploadFile()">업로드</button>
+    
+    <h2>현재문서목록</h2>
+    <ul id="file-list"></ul>
+
     <h2>질문하시오</h2>
     <input type="text" id="questionInput">
     <button onclick="askQuestion()">질문</button>
@@ -16,6 +20,32 @@
     <div id="answer"></div>
 
     <script>
+        const fileList = document.getElementById('file-list')
+        async function loadFileList() {
+            const response = await fetch('/files');
+            const data = await response.json();
+            const files = data.files;
+            console.log(files);
+            fileList.innerHTML = files.map(fn => `
+                <li>
+                    ${fn}
+                    <button data-file="${fn}" class="delete-btn">삭제</button>
+                </li>
+            `).join('');
+        }
+        loadFileList();
+
+        fileList.addEventListener('click', async (e) => {
+            if (!e.target.matches('.delete-btn')) return;
+
+            const filename = e.target.dataset.file;
+            if (!confirm(`'${filename}' 을 정말 삭제하시겠습니까?`)) return;
+            const response = await fetch(`files/${filename}`, {method: 'DELETE'})
+            const data = await response.json();
+            alert(data.message);
+            loadFileList();
+        });
+
         async function uploadFile() {
             const fileInput = document.getElementById('fileInput');
             const file = fileInput.files[0];
@@ -28,6 +58,7 @@
 
             const result = await response.json();
             alert(result.message)
+            loadFileList();
         }
 
         async function askQuestion() {
