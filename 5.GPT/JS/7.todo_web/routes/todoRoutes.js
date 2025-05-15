@@ -5,7 +5,7 @@ const { getAllTodos, addTodo, toggleTodo, deleteTodo } = require('../controllers
 
 router.get('/api/todos', getAllTodos);
 router.post('/api/todos', addTodo);
-router.put('/api/todos', toggleTodo);
-router.delete('/api/todos', deleteTodo);
+router.put('/api/todos/:id', toggleTodo);
+router.delete('/api/todos/:id', deleteTodo);
 
 module.exports = router;
