@@ -4,11 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
-        #todo-list li { cursor: pointer; }
-        #todo-list li.completed { text-decoration: line-through; }
+        #todo-list li { margin-bottom: 5px; cursor: pointer; }
+        #todo-list li.completed { 
+            text-decoration: line-through; 
+            text-decoration-color: red; 
+            text-decoration-thickness: 2px;
+        }
     </style>
+    <link rel="stylesheet" href="css/chatbot.css">
+    <script src="js/chatbot.js" defer></script>
 </head>
 <body>
     <h1>투두 리스트</h1>
@@ -25,6 +32,7 @@
         addBtn.addEventListener('click', async () => {
             // 입력값 읽어다가 백엔드 호출 (/api/todos) POST
             const text = input.value.trim();
+            if (!text) return;
 
             // fetch('/api/todos', {
             //     method: 'POST',
