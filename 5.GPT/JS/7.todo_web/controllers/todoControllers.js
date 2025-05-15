@@ -1,45 +1,43 @@
-const db = require('../models/database')
+// 1. [Client] -> [Routes](여기에서 직접 DB CRUD)
+// 2. [Client] -> [Routes] -> [Controllers](여기에서 직접 DB CRUD)
+// 3. [Client] -> [Routes] -> [Controllers] -> [Models](여기에서 직접 DB CRUD)
+// 4. [Client] -> [Routes] -> [Controllers] -> [Services] -> [Models](여기에서 직접 DB CRUD) 
+//
+// 이전까지는 2번이었고, 이 파일에서 SQL구문을 직접 호출했고,
+// 지금은 3번으로 진행중... 그래서 SQL구문을 model파일에서 호출함..
+
+const todoModel = require('../models/todoModel');
 
 function getAllTodos(req, res) {
-    const rows = db.prepare('SELECT * FROM todos').all();
+    const rows = todoModel.getAllTodos();
     console.log(rows);
     const todos = rows.map(row => ({
         id: row.id,
         text: row.text,
         completed: row.completed
-    }))
+    }));
 
-    res.json(todos)
+    res.json(todos);
 }
 
 function addTodo(req, res) {
     const { text } = req.body;
-
-    const stmt = db.prepare('INSERT INTO todos(text) VALUES (?)');
-    const info = stmt.run(text);
-
-    res.json({"message":"ok"})
+    todoModel.addTodo(text);
+    res.json({"message":"ok"});
 }
 
 function toggleTodo(req, res) {
     const id = req.params.id;
-
-    // 현재 상태가져오기
-    const row = db.prepare('SELECT * FROM todos WHERE id=?').get(id);
+    const row = todoModel.getTodoById(id);
     const newState = row.completed ? 0 : 1;
-
-    // 반전해서 저장하기
-    const stmt = 'UPDATE todos SET completed=? WHERE id=?'
-    db.prepare(stmt).run(newState, id);
-
-    res.json({"message":"ok"})
+    todoModel.updateTodoState(id, newState);
+    res.json({"message":"ok"});
 }
 
 function deleteTodo(req, res) {
     const id = req.params.id;
-
-    db.prepare('DELETE FROM todos WHERE id=?').run(id);
-    res.json({"message":"ok"})
+    todoModel.deleteTodoById(id);
+    res.json({"message":"ok"});
 }
 
 module.exports = {

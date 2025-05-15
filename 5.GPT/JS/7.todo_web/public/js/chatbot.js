@@ -94,6 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await resp.json();    
 
         addMessage(result.answer, 'chatbot');
+
+        // 주의: 다른 모듈의 함수 호출해서 갱신하기.
+        renderTodos();
     }
 
 });
