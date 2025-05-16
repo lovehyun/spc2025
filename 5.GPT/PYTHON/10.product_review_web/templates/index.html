@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상품 후기 작성</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
     <h1>상품 후기 작성</h1>
@@ -25,10 +27,21 @@
                 <label for="review-text">후기 내용</label>
                 <textarea id="review-text" rows="5" required></textarea>
             </div>
-            <button type="submit">후기 등록</button>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">후기 등록</button>
         </form>
     </div>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <div class="ai-review-summary">
+        <h2>AI 후기 요약</h2>
+        <div id="aiSummary" class="p-4 bg-gray-100 rounded-lg mt-4">
+            <div class="loading-spinner hidden">Loading...</div>
+            <div class="summary-content"></div>
+        </div>
+    </div>
+
+    <div class="review-list">
+        <h2>작성된 후기</h2>
+        <div id="reviewsList"></div>
+    </div>
 </body>
 </html>
