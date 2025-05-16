@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON 예제 - Flask 애플리케이션</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+        .content {
+            padding: 20px;
+        }
+        #json-display {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        .json-key {
+            color: #d63384;
+        }
+        .json-string {
+            color: #20c997;
+        }
+        .json-number {
+            color: #fd7e14;
+        }
+        .json-boolean {
+            color: #0d6efd;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        button:hover {
+            background-color: #0069d9;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>JSON 예제</h1>
+        
+        <div class="nav">
+            <a href="/">홈</a>
+            <a href="/about">소개</a>
+            <a href="/json/view">JSON 예제</a>
+            <a href="/reviews">상품 후기</a>
+        </div>
+        
+        <div class="content">
+            <h2>JSON 데이터 보기</h2>
+            <p>아래 버튼을 클릭하여 서버에서 JSON 데이터를 가져옵니다.</p>
+            
+            <button id="fetch-json">JSON 데이터 가져오기</button>
+            
+            <div id="json-display">여기에 JSON 데이터가 표시됩니다.</div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2025 Flask 애플리케이션</p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('fetch-json').addEventListener('click', function() {
+            fetch('/json')
+                .then(response => response.json())
+                .then(data => {
+                    const jsonDisplay = document.getElementById('json-display');
+                    const formattedJson = JSON.stringify(data, null, 4);
+                    
+                    // 색상 강조를 위한 HTML로 변환
+                    const coloredJson = formattedJson
+                        .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
+                        .replace(/"([^"]+)"/g, '<span class="json-string">"$1"</span>')
+                        .replace(/\b(\d+)\b/g, '<span class="json-number">$1</span>')
+                        .replace(/\b(true|false)\b/g, '<span class="json-boolean">$1</span>');
+                    
+                    jsonDisplay.innerHTML = coloredJson;
+                })
+                .catch(error => {
+                    console.error('Error fetching JSON:', error);
+                    document.getElementById('json-display').textContent = '오류: JSON 데이터를 가져오는 중 문제가 발생했습니다.';
+                });
+        });
+        
+        // 페이지 로드 시 자동으로 JSON 데이터 가져오기
+        window.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('fetch-json').click();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask 애플리케이션</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+        .content {
+            padding: 20px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flask 애플리케이션에 오신 것을 환영합니다</h1>
+        
+        <div class="nav">
+            <a href="/">홈</a>
+            <a href="/about">소개</a>
+            <a href="/json/view">JSON 예제</a>
+            <a href="/reviews">상품 후기</a>
+        </div>
+        
+        <div class="content">
+            <h2>홈페이지</h2>
+            <p>이것은 Flask로 만든 기본 웹 애플리케이션입니다.</p>
+            <p>이 템플릿은 Flask의 render_template 함수를 사용하여 렌더링됩니다.</p>
+            
+            {% if message %}
+            <div class="message">
+                <p>{{ message }}</p>
+            </div>
+            {% endif %}
+        </div>
+        
+        <footer>
+            <p>&copy; 2025 Flask 애플리케이션</p>
+        </footer>
+    </div>
+</body>
+</html>

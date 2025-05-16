@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 후기 - Flask 애플리케이션</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6baf;
+            --secondary-color: #f8f9fa;
+            --accent-color: #ffd700;
+            --text-color: #333;
+            --light-text: #6c757d;
+            --border-color: #dee2e6;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: var(--text-color);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .logo h1 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+        
+        .language-selector {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .language-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .language-btn:hover {
+            background-color: #3a5a9f;
+        }
+        
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .language-dropdown a {
+            color: var(--text-color);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.2s;
+        }
+        
+        .language-dropdown a:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .language-selector:hover .language-dropdown {
+            display: block;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            background-color: var(--secondary-color);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        
+        .nav a:hover {
+            color: #3a5a9f;
+            text-decoration: underline;
+        }
+        
+        .ai-summary {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-summary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><text x="10" y="50" font-family="Arial" font-size="80" opacity="0.03">AI</text></svg>');
+            background-repeat: no-repeat;
+            background-position: right bottom;
+            background-size: 150px;
+            opacity: 0.5;
+        }
+        
+        .ai-summary h2 {
+            color: var(--primary-color);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .ai-summary h2 i {
+            color: var(--accent-color);
+        }
+        
+        .ai-summary-content {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .ai-summary-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--light-text);
+            font-size: 0.9rem;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        
+        .ai-summary-stats {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .ai-summary-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .ai-summary-rating .stars {
+            color: var(--accent-color);
+        }
+        
+        .reviews-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .reviews-header h2 {
+            margin: 0;
+            color: var(--text-color);
+        }
+        
+        .review-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .review-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .review-rating {
+            color: var(--accent-color);
+        }
+        
+        .review-date {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+        
+        .review-content {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: var(--light-text);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .language-selector {
+                align-self: flex-end;
+            }
+            
+            .ai-summary {
+                padding: 15px;
+            }
+            
+            .ai-summary-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>상품 후기 시스템</h1>
+            </div>
+            <div class="language-selector">
+                <button class="language-btn">
+                    <i class="fas fa-globe"></i>
+                    {{ languages[current_language] }}
+                    <i class="fas fa-caret-down"></i>
+                </button>
+                <div class="language-dropdown">
+                    {% for code, name in languages.items() %}
+                        <a href="{{ url_for('reviews', lang=code) }}">{{ name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </header>
+        
+        <div class="nav">
+            <a href="/">홈</a>
+            <a href="/about">소개</a>
+            <a href="/json/view">JSON 예제</a>
+            <a href="/reviews">상품 후기</a>
+        </div>
+        
+        <section class="ai-summary">
+            <h2><i class="fas fa-robot"></i> AI 리뷰 요약</h2>
+            <div class="ai-summary-content">
+                {{ summary.summary }}
+            </div>
+            <div class="ai-summary-meta">
+                <div class="ai-summary-stats">
+                    <div class="ai-summary-rating">
+                        <span class="stars">
+                            {% for i in range(5) %}
+                                {% if i < summary.avg_rating|int %}
+                                    <i class="fas fa-star"></i>
+                                {% elif i < summary.avg_rating %}
+                                    <i class="fas fa-star-half-alt"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </span>
+                        <span>{{ summary.avg_rating }}/5</span>
+                    </div>
+                    <div class="review-count">
+                        <i class="fas fa-comment"></i> {{ summary.review_count }}개 리뷰 기준
+                    </div>
+                </div>
+                <div class="generated-time">
+                    <i class="fas fa-clock"></i> {{ summary.generated_at }} 생성
+                </div>
+            </div>
+        </section>
+        
+        <section class="reviews-container">
+            <div class="reviews-header">
+                <h2>고객 리뷰</h2>
+            </div>
+            
+            {% for review in reviews %}
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-rating">
+                        {% for i in range(5) %}
+                            {% if i < review.rating %}
+                                <i class="fas fa-star"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="review-date">
+                        {{ review.created_at.replace('T', ' ') }}
+                    </div>
+                </div>
+                <div class="review-content">
+                    {{ review.review }}
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+        
+        <footer>
+            <p>&copy; 2025 상품 후기 시스템 - Flask 애플리케이션</p>
+        </footer>
+    </div>
+</body>
+</html>
