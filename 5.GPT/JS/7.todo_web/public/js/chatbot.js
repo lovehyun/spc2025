@@ -66,13 +66,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
         
-    function addMessage(message, sender='user') {
-        // 화면에 내 메세지 추가한다.
+function addMessage(message, sender = 'user') {
+    // message 내의 **을 감싸고 있는 텍스트를 <strong> 태그로 변환한다.
+    // 아래 이런 부분들은 바이브코딩으로 바꿔보기.. "줄바꿈", "강조" 등의 정규표현식을 자동화 도구로 어떻게 생성해서 코드에 반영할지 해보기.
+    const formattedMessage = message
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n/g, '<br>'); // \n을 <br>로 변환한다.
+        // 화면에 메세지를 추가한다.
         const myMessage = document.createElement('div');
-        myMessage.innerHTML = sender + ": " + message;
+        myMessage.innerHTML = sender + ": " + formattedMessage;
         chatbotMessages.appendChild(myMessage);
 
-        // 스크롤 내린다.
+        // 스크롤을 내린다.
         chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
     }
 
