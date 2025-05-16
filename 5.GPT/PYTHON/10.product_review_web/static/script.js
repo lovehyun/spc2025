@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const reviewForm = document.getElementById('reviewForm');
+    const languageSelect = document.getElementById('languageSelect');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -105,11 +106,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadAiSummary = async () => {
         const loadingSpinner = document.querySelector('.loading-spinner');
         const summaryContent = document.querySelector('.summary-content');
+        const selectedLanguage = languageSelect.value;
 
         try {
             loadingSpinner.classList.remove('hidden');
             summaryContent.innerHTML = '';
-            const response = await fetch('/api/aisummary');
+            const response = await fetch(`/api/aisummary?lang=${selectedLanguage}`);
             const data = await response.json();
             summaryContent.innerHTML = data.summary;
         } catch (error) {
@@ -123,6 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (reviewForm) {
         reviewForm.addEventListener('submit', handleSubmit);
     }
+
+    languageSelect.addEventListener('change', loadAiSummary);
 
     loadReviews();
     loadAiSummary();

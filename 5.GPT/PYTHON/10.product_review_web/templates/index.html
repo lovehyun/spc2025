@@ -9,6 +9,17 @@
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
+    <div class="flex justify-end p-4">
+        <select id="languageSelect" class="border rounded p-2">
+            <option value="ko">한국어</option>
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+            <option value="zh">中文</option>
+            <option value="fr">Français</option>
+            <option value="it">Italiano</option>
+        </select>
+    </div>
+
     <h1>상품 후기 작성</h1>
     <div class="review-form">
         <img src="https://picsum.photos/400/300" alt="Random Product Image" class="product-image">

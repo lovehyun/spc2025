@@ -86,7 +86,11 @@ def delete_review(review_id):
     return jsonify({'message': 'Review deleted successfully'}), 200
 
 @app.route('/api/aisummary', methods=['GET'])
+@app.route('/api/aisummary', methods=['GET'])
 def get_ai_summary():
+    # Get language parameter from URL, default to 'ko' (Korean) if not specified
+    lang = request.args.get('lang', 'ko')
+
     conn = sqlite3.connect('reviews.db')
     c = conn.cursor()
     c.execute('SELECT rating, review FROM reviews')
@@ -94,24 +98,58 @@ def get_ai_summary():
     conn.close()
 
     if not reviews:
-        return jsonify({'error': 'No reviews found'}), 404
+        return jsonify({'error': '등록된 리뷰가 없습니다'}), 404
 
-    reviews_text = "\n".join([f"Rating: {r[0]}, Review: {r[1]}" for r in reviews])
+    reviews_text = "\n".join([f"평점: {r[0]}, 리뷰: {r[1]}" for r in reviews])
 
-    response = client.chat.completions.create(
+    # Step 1: Summarize in Korean
+    summary_response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "당신은 고객 리뷰를 요약해주는 도우미입니다."},
-            {"role": "user", "content": f"다음 리뷰들을 다 읽고 전체적으로 요약한 문장으로 만들어주세요:\n{reviews_text}"}
+            {
+                "role": "system",
+                "content": "당신은 고객 리뷰를 요약하는 assistant입니다. 한글로 작성된 리뷰가 많을 것이며, 문맥을 잘 파악하여 자연스러운 한국어로 요약해주세요."
+            },
+            {
+                "role": "user",
+                "content": f"다음의 모든 고객 리뷰들을 읽고 종합적인 요약을 작성해주세요:\n{reviews_text}"
+            }
         ]
     )
 
-    summary = response.choices[0].message.content
+    korean_summary = summary_response.choices[0].message.content
+
+    # Step 2: Translate the summary if needed
+    if lang != 'ko':
+        language_map = {
+            'en': '영어',
+            'ja': '일본어',
+            'zh': '중국어'
+        }
+        target_language = language_map.get(lang, '한국어')
+
+        translation_response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {
+                    "role": "system",
+                    "content": f"당신은 한국어를 {target_language}로 번역하는 전문 번역가입니다. 자연스러운 번역을 해주세요."
+                },
+                {
+                    "role": "user",
+                    "content": f"다음 텍스트를 {target_language}로 번역해주세요:\n{korean_summary}"
+                }
+            ]
+        )
+        final_summary = translation_response.choices[0].message.content
+    else:
+        final_summary = korean_summary
 
     return jsonify({
-        'summary': summary,
+        'summary': final_summary,
         'total_reviews': len(reviews),
-        'average_rating': sum(r[0] for r in reviews) / len(reviews)
+        'average_rating': sum(r[0] for r in reviews) / len(reviews),
+        'language': lang
     })
 
 if __name__ == '__main__':
