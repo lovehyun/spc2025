@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 후기 작성</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>상품 후기 작성</h1>
+    <div class="review-form">
+        <img src="https://picsum.photos/400/300" alt="Random Product Image" class="product-image">
+        <form id="reviewForm">
+            <div class="form-group">
+                <label>평점</label>
+                <div class="rating">
+                    <label><input type="radio" name="rating" value="5">★★★★★ 매우 좋음</label>
+                    <label><input type="radio" name="rating" value="4">★★★★ 좋음</label>
+                    <label><input type="radio" name="rating" value="3">★★★ 보통</label>
+                    <label><input type="radio" name="rating" value="2">★★ 나쁨</label>
+                    <label><input type="radio" name="rating" value="1">★ 매우 나쁨</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="review-text">후기 내용</label>
+                <textarea id="review-text" rows="5" required></textarea>
+            </div>
+            <button type="submit">후기 등록</button>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
