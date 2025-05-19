@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input[type=text] { width: 80% }
+    </style>
+</head>
+<body>
+    <h1>코드 리뷰 서비스</h1>
+    <form id="codeForm">
+        <label for="github_url">GitHub 파일 URL:</label>
+        <br><input type="text" id="github_url" name="github_url" placeholder="https://github.com/xxxx...">
+        <br><button type="submit">분석</button>
+    </form>
+    <h2>분석 결과</h2>
+    <div id="code"></div>
+    <div id="result"></div>
+    <script>
+        document.getElementById('codeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const github_url = document.getElementById('github_url').value;
+
+            try {
+                const response = await fetch('/api/check', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ github_url }),
+                });
+
+                const result = await response.json();
+                const code = result.code;
+                const analysis = result.result;
+                document.getElementById('code').innerText = code;
+                document.getElementById('result').innerHTML = analysis.replace(/\n/g, "<br>")
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('result').textContent = '에러가 발생했습니다.';
+            }
+            // 해당 줄에 빨간색 줄로 하이라이팅 추가
+        });
+    </script>
+</body>
+</html>
