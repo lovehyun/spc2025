@@ -6,6 +6,19 @@
     <title>Document</title>
     <style>
         input[type=text] { width: 80% }
+        .line-number {
+            display: inline-block;
+            color: gray;
+            width: 40px;
+            text-align: right;
+            margin-right: 10px;
+        }
+        .code-line {
+            display: block;
+        }
+        .highlight {
+            background-color: #ffcccc;
+        }
     </style>
 </head>
 <body>
@@ -14,6 +27,11 @@
         <label for="github_url">GitHub 파일 URL:</label>
         <br><input type="text" id="github_url" name="github_url" placeholder="https://github.com/xxxx...">
         <br><button type="submit">분석</button>
+        <select id="provider">
+            <option value="openai">OpenAI</option>
+            <option value="anthropic">Claude</option>
+            <option value="gemini">Gemini</option>
+        </select>
     </form>
     <h2>분석 결과</h2>
     <div id="code"></div>
@@ -22,6 +40,7 @@
         document.getElementById('codeForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const github_url = document.getElementById('github_url').value;
+            const provider = document.getElementById('provider').value;
 
             try {
                 const response = await fetch('/api/check', {
@@ -29,13 +48,45 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ github_url }),
+                    body: JSON.stringify({ github_url, provider }),
                 });
 
                 const result = await response.json();
                 const code = result.code;
                 const analysis = result.result;
-                document.getElementById('code').innerText = code;
+
+                // document.getElementById('code').innerText = code;
+                const codeLines = code.split('\n');
+                function escapeHTML(str) {
+                    return str
+                        .replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;")
+                }
+                const codeHtml = codeLines.map((line, index) => {
+                    return `<div class="code-line" id="line-${index+1}"><span class="line-number">${index+1}</span>${escapeHTML(line)}</div>`
+                }).join("");
+                // console.log(codeHtml);
+                document.getElementById('code').innerHTML = codeHtml;
+                
+                // analysis 에서 "라인 번호: xx" 또는 "라인 번호: xx-xx" 을 찾아서, 해당 라인에 hightlight 처리
+                // "라인 번호" 뒤에 "\s" 스페이스 공백이 0~n개까지, ":", "\s" 스페이스 다시 나오고...
+                // 그 다음에 (\d+) 숫자가 1개 또는 그 이상
+                // (그 다음에 -스페이스 다시 숫자 하나또는 그 이상) 이게 있을수도 있고 없을수도 있음.. 을 표현하는 정규표현식
+                const regex = /라인 번호\s*:\s*(\d+)(?:\s*-\s*(\d+))?/g;
+                let match;
+                while ((match = regex.exec(analysis)) !== null) {
+                    const start = parseInt(match[1], 10);
+                    const end = match[2] ? parseInt(match[2], 10) : start;
+                    console.log(`시작: ${start}, 끝: ${end}`);
+
+                    for (let i = start; i <= end; i++) {
+                        const lineElem = document.getElementById('line-' + i);
+                        if (lineElem) {
+                            lineElem.classList.add('highlight');
+                        }
+                    }
+                }
+
                 document.getElementById('result').innerHTML = analysis.replace(/\n/g, "<br>")
             } catch (error) {
                 console.error('Error:', error);
